@@ -1,0 +1,62 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed&display=swap');
+// =====================================
+// Custom color variables
+// =====================================
+// polar night
+$nord0: #2E3440;
+$nord1: #3B4252;
+$nord2: #434C5E;
+$nord3: #4C566A;
+// snow storm
+$nord4: #D8DEE9;
+$nord5: #E5E9F0;
+$nord6: #ECEFF4;
+// frost
+$nordGreenBlue: #8FBCBB;
+$nordBlueGreen: #88C0D0;
+$nordLightBlue: #81A1C1;
+$nordBlue: #5E81AC;
+// aurora
+$nordRed: #BF616A;
+$nordOrange: #D08770;
+$nordYellow: #EBCB8B;
+$nordGreen: #A3BE8C;
+$nordPurple: #B48EAD;
+
+// =====================================
+// Boostrap overrides
+// =====================================
+
+$primary: $nord3;
+$link: $nordLightBlue;
+$info: $nordBlueGreen;
+$success: $nordGreenBlue;
+$warning: $nordYellow;
+$danger: $nordRed;
+
+// $theme-colors: (
+//   "primary": $nord3,
+//   "link": $nordLightBlue,
+//   "info": $nordBlueGreen,
+//   "success": $nordGreenBlue,
+//   "warning": $nordYellow,
+//   "danger": $nordRed,
+// );
+$custom-font: "Fira Sans Extra Condensed", "sans-serif";
+
+$font-family-base: $custom-font;
+
+$font-size-base:              0.9rem;
+$font-size-lg:                $font-size-base * 1.25;
+$font-size-sm:                $font-size-base * .875;
+
+$h1-font-size:                $font-size-base * 2.5;
+$h2-font-size:                $font-size-base * 2;
+$h3-font-size:                $font-size-base * 1.75;
+$h4-font-size:                $font-size-base * 1.5;
+$h5-font-size:                $font-size-base * 1.25;
+$h6-font-size:                $font-size-base;
+
+
+@import '~bootstrap/scss/bootstrap';

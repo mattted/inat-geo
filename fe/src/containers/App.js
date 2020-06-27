@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {initGeo} from '../actions/geoActions'
-import '../styles/App.scss'
+import {initDatalist} from '../action/filterActions'
+
+import Header from '../components/layout/Header'
+import MapContainer from './MapContainer'
 
 class App extends Component {
-
   componentDidMount() {
     console.log("Calling initGeo()")
     this.props.initGeo()
@@ -13,7 +15,8 @@ class App extends Component {
   render() {
     return (
       <>
-        <h1>GeoDiv</h1>
+        <Header />
+        <MapContainer propTest="this is a prop test" />
       </>
     )
   }
