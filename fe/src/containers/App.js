@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {initGeo} from './actions/geoActions'
-import './styles/App.scss'
+import {initGeo} from '../actions/geoActions'
+import '../styles/App.scss'
 
 class App extends Component {
 
