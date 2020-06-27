@@ -1,10 +1,28 @@
-import React from 'react';
-import './App.scss';
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {initGeo} from './actions/geoActions'
+import './styles/App.scss'
 
-function App() {
-  return (
-    <h1>iNat Geo</h1>
-  )
+class App extends Component {
+
+  componentDidMount() {
+    console.log("Calling initGeo()")
+    this.props.initGeo()
+  }
+  
+  render() {
+    return (
+      <>
+        <h1>GeoDiv</h1>
+      </>
+    )
+  }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    initGeo: () => dispatch(initGeo())
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App)
