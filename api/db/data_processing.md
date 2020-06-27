@@ -54,7 +54,20 @@
   ```psql
   delete from gbif_common a using gbif_common b where a.tid = b.tid and a.ctid < b.ctid;
   ```
+  * Create common name column
+  ```psql
+  alter table inat_obs add column common varchar;
+  ```
   * Join common name to observations using tid (taxonID/taxonKey)
   ```psql
   update inat_obs set common = gbif_common.common from gbif_common where inat_obs.tid = gbif_common.tid and gbif_common.lang = 'en';
+  ```
+
+# Copy to rails database for processing
+  * Copy from staging to post creation/migration rails database
+  ```shell
+  pg_dump -t inat_obs inat_stage | psql inat
+  ```
+  ```psql
+  alter table inat_obs rename to biodiv
   ```
