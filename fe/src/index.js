@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './containers/App';
-import Container from 'react-bootstrap/Container';
 import './styles/App.scss';
 import {Provider} from 'react-redux'
 import {createStore, applyMiddleware} from 'redux'
@@ -12,9 +11,7 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 
 ReactDOM.render(
   <Provider store={store}>
-    {/* <Container className='px-5'> */}
-      <App />
-    {/* </Container> */}
+    <App />
   </Provider>,
   document.getElementById('root')
 );
