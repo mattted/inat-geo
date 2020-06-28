@@ -1,15 +1,5 @@
 const filterReducer = (state = {
-  radios: [
-    {name: 'Kingdom', value: 'kingdom'},
-    {name: 'Phylum', value: 'phylum'},
-    {name: 'Class', value: 'klass'},
-    {name: 'Order', value: 'order'},
-    {name: 'Family', value: 'family'},
-    {name: 'Genus', value: 'genus'},
-    {name: 'Species', value: 'species'},
-    {name: 'Common Name', value: 'common'},
-  ],
-  selected: '',
+  orgFilter: '',
   list: [],
   loading: false,
 } , action) => {
@@ -23,11 +13,19 @@ const filterReducer = (state = {
     case 'POPULATE_DATALIST':
       console.log("filterReducer action: POPULATE_DATALIST")
       console.log(action.payload)
+      const frag = document.createDocumentFragment()
+      action.payload.list.forEach((item, i) => {
+          let option = document.createElement('option')
+          option.value= item
+          option.key = i
+          frag.appendChild(option)
+        })
+      console.log(frag)
       return {
         ...state,
-        selected: action.payload.selected,
+        orgFilter: action.payload.orgFilter,
         loading: false,
-        list: action.payload.list
+        list: frag
       }
     default:
       return state

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-// import Button from 'react-bootstrap/Button'
+
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
@@ -13,13 +13,31 @@ import {populateDatalist} from '../../actions/filterActions'
 import {changeGeo} from '../../actions/geoActions'
 
 class Filter extends Component {
+  constructor(props) {
+    super(props)
+    this.geoRadios = [
+      {name: 'County', value: 'counties'},
+      {name: 'State', value: 'states'},
+    ]
+    this.orgRadios =  [
+      {name: 'Kingdom', value: 'kingdom'},
+      {name: 'Phylum', value: 'phylum'},
+      {name: 'Class', value: 'klass'},
+      {name: 'Order', value: 'order'},
+      {name: 'Family', value: 'family'},
+      {name: 'Genus', value: 'genus'},
+      {name: 'Species', value: 'species'},
+      {name: 'Common Name', value: 'common'},
+    ]
+  }
+
   render() {
     return (
       <Container>
-        <Row className='justify-content-center'>
+        <Row className='justify-content-center mt-1'>
           <Col className='col-10 mx-auto text-center'>
             <ButtonGroup toggle>
-              {this.props.radios.map((radio, i) => (
+              {this.geoRadios.map((radio, i) => (
                 <ToggleButton
                   key={i}
                   size='sm'
@@ -27,7 +45,27 @@ class Filter extends Component {
                   variant='primary'
                   name={radio.name}
                   value={radio.value}
-                  checked={radio.value === this.props.selected}
+                  checked={radio.value === this.props.geoType}
+                  onChange={(e) => this.props.changeGeo(e.target.value)}
+                >
+                  {radio.name}
+                </ToggleButton>
+              ))}
+            </ButtonGroup>
+          </Col>
+        </Row>
+        <Row className='justify-content-center mt-1'>
+          <Col className='col-10 mx-auto text-center'>
+            <ButtonGroup toggle>
+              {this.orgRadios.map((radio, i) => (
+                <ToggleButton
+                  key={i}
+                  size='sm'
+                  type='radio'
+                  variant='primary'
+                  name={radio.name}
+                  value={radio.value}
+                  checked={radio.value === this.props.orgFilter}
                   onChange={(e) => this.props.populateDatalist(e.target.value)}
                 >
                   {radio.name}
@@ -36,16 +74,18 @@ class Filter extends Component {
             </ButtonGroup>
           </Col>
         </Row>
-        <Row className='justify-content-center'>
+        <Row className='justify-content-center mt-2'>
           <Col className='col-8 mx-auto'>
-            <InputGroup size="sm" className="mt-2">
+            <InputGroup size="sm">
               <InputGroup.Prepend>
                 <InputGroup.Text>Search</InputGroup.Text>
               </InputGroup.Prepend>
-              <FormControl/>
+              <FormControl list='mapfilter' placeholder='...'/>
             </InputGroup>
           </Col>
         </Row>
+        <datalist id='mapfilter'>
+        </datalist>
       </Container>
     )
   }
@@ -53,13 +93,14 @@ class Filter extends Component {
 
 function mapDispatchToProps(dispatch){
   return {
-    populateDatalist: (orgType) => dispatch(populateDatalist(orgType)),
-    changeGeo: (geoType) => dispatch(changeGeo(geoType)),
+    populateDatalist: (selected) => dispatch(populateDatalist(selected)),
+    changeGeo: (selected) => dispatch(changeGeo(selected)),
   } 
 }
 
 function mapStateToProps(state) {
-  return {...state.filter}
+  console.log({...state.filter, geoType: state.geo.type})
+  return {...state.filter, geoType: state.geo.type}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter)

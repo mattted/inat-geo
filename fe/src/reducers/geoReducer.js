@@ -12,10 +12,11 @@ const geoReducer = (state = {
       }
     case 'CHANGE_BASE_MAP':
       console.log("geoReducer action: CHANGE_BASE_MAP")
+      console.log(action)
       return {
         ...state,
-        type: action.payload,
-        shp: action.payload,
+        type: action.payload.type,
+        shp: action.payload.shp,
         loading: false
       }
     default:
