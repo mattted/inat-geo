@@ -1,11 +1,11 @@
 import API from '../api'
 
-const initGeo = () => {
+const changeGeo = (geoType) => {
   return dispatch => {
     dispatch({type: 'LOADING_GEO'})
-    API.fetch('counties')
-      .then(data => dispatch({type: 'BASE_MAP_COUNTY', payload: data}))
+    API.fetch(geoType)
+      .then(data => dispatch({type: 'CHANGE_BASE_MAP', payload: {geo: data, geoType: geoType}}))
   }
 } 
 
-export {initGeo}
+export {changeGeo}

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {initGeo} from '../actions/geoActions'
+import {changeGeo} from '../actions/geoActions'
 import {populateDatalist} from '../actions/filterActions'
 
 import Header from '../components/layout/Header'
@@ -9,7 +9,7 @@ import MapContainer from './MapContainer'
 class App extends Component {
   componentDidMount() {
     console.log("Calling initGeo()")
-    this.props.initGeo()
+    this.props.changeGeo('counties')
     this.props.populateDatalist('kingdom')
   }
   
@@ -25,7 +25,7 @@ class App extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    initGeo: () => dispatch(initGeo()),
+    changeGeo: (geoType) => dispatch(changeGeo(geoType)),
     populateDatalist: (orgType) => dispatch(populateDatalist(orgType))
   }
 }

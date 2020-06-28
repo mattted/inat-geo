@@ -10,11 +10,11 @@ const geoReducer = (state = {
         ...state,
         loading: true
       }
-    case 'BASE_MAP_COUNTY':
-      console.log("geoReducer action: BASE_MAP_COUNTY")
+    case 'CHANGE_BASE_MAP':
+      console.log("geoReducer action: CHANGE_BASE_MAP")
       return {
         ...state,
-        type: 'county',
+        type: action.payload,
         shp: action.payload,
         loading: false
       }
