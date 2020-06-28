@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import WindowedSelect from 'react-windowed-select'
 
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
@@ -74,18 +75,11 @@ class Filter extends Component {
             </ButtonGroup>
           </Col>
         </Row>
-        <Row className='justify-content-center mt-2'>
-          <Col className='col-8 mx-auto'>
-            <InputGroup size="sm">
-              <InputGroup.Prepend>
-                <InputGroup.Text>Search</InputGroup.Text>
-              </InputGroup.Prepend>
-              <FormControl list='mapfilter' placeholder='...'/>
-            </InputGroup>
+        <Row className='justify-content-center mt-1'>
+          <Col className='col-10 mx-auto text-center'>
+            <WindowedSelect options={this.props.list} />
           </Col>
         </Row>
-        <datalist id='mapfilter'>
-        </datalist>
       </Container>
     )
   }
