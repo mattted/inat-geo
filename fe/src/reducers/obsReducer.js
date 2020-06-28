@@ -12,9 +12,11 @@ const obsReducer = (state = {
       }
     case 'CHANGE_OBS':
       console.log("obsReducer action: CHANGE_OBS")
-      console.log(action)
+      console.log(action.payload)
       return {
         ...state,
+        type: action.payload.type,
+        data: action.payload.data,
         loading: false
       }
     default:

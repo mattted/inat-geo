@@ -1,11 +1,13 @@
 import API from '../api'
 
-const changeObs = (obsType) => {
-  // return dispatch => {
-  //   dispatch({type: 'LOADING_OBS'})
-  //   API.fetch(obsType)
-  //     .then(data => dispatch({type: 'CHANGE_BASE_MAP', payload: {shp: data, type: geoType}}))
-  // }
+const changeObs = (orgType, orgFilter, geoType) => {
+  return dispatch => {
+    dispatch({type: 'LOADING_OBS'})
+    let url = `${geoType}_obs_by_query?search=${orgType};column=${orgFilter}`
+    API.fetch(url)
+      .then(data => dispatch({type: 'CHANGE_OBS', payload: {data: data, type: orgType}}))
+      .then(data => console.log(data))
+  }
 } 
 
-export {changeGeo}
+export {changeObs}

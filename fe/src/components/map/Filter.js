@@ -10,6 +10,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
 
 import {populateDatalist} from '../../actions/filterActions'
 import {changeGeo} from '../../actions/geoActions'
+import {changeObs} from '../../actions/obsActions'
 
 class Filter extends Component {
   constructor(props) {
@@ -79,7 +80,7 @@ class Filter extends Component {
             <WindowedSelect 
               options={this.props.list}
               filterOption={createFilter({ignoreAccents: false})}
-              onChange={(sel) => console.log(sel.value)}
+              onChange={(sel) => this.props.changeObs(sel.value, this.props.orgFilter, this.props.geoType)}
             />
           </Col>
           <Col />
@@ -93,6 +94,7 @@ function mapDispatchToProps(dispatch){
   return {
     populateDatalist: (selected) => dispatch(populateDatalist(selected)),
     changeGeo: (selected) => dispatch(changeGeo(selected)),
+    changeObs: (selected, orgFilter, geoType) => dispatch(changeObs(selected, orgFilter, geoType)),
   } 
 }
 

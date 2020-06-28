@@ -25,7 +25,7 @@ class OrganismsController < ApplicationController
   end
 
   def species
-    render json: Organism.speciecnames
+    render json: Organism.species
   end
 
   def common
