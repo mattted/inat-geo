@@ -1,14 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import WindowedSelect from 'react-windowed-select'
+import WindowedSelect, {createFilter} from 'react-windowed-select'
 
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
-import InputGroup from 'react-bootstrap/InputGroup'
-import FormControl from 'react-bootstrap/FormControl'
 
 import {populateDatalist} from '../../actions/filterActions'
 import {changeGeo} from '../../actions/geoActions'
@@ -76,9 +74,15 @@ class Filter extends Component {
           </Col>
         </Row>
         <Row className='justify-content-center mt-1'>
-          <Col className='col-10 mx-auto text-center'>
-            <WindowedSelect options={this.props.list} />
+          <Col />
+          <Col>
+            <WindowedSelect 
+              options={this.props.list}
+              filterOption={createFilter({ignoreAccents: false})}
+              onChange={(sel) => console.log(sel.value)}
+            />
           </Col>
+          <Col />
         </Row>
       </Container>
     )

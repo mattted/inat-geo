@@ -17,6 +17,6 @@ Rails.application.routes.draw do
     get 'family', to: 'organisms#family'
     get 'genus', to: 'organisms#genus'
     get 'species', to: 'organisms#species'
-    get 'cname', to: 'organisms#cname'
+    get 'common', to: 'organisms#common'
   end
 end

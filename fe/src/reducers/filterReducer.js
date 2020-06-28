@@ -12,12 +12,12 @@ const filterReducer = (state = {
       }
     case 'POPULATE_DATALIST':
       console.log("filterReducer action: POPULATE_DATALIST")
-      console.log(action.payload)
+      let options = action.payload.list.map(item => ({value: item, label: item}))
       return {
         ...state,
         orgFilter: action.payload.orgFilter,
         loading: false,
-        list: action.payload.list.map(item => ({value: item, label: item}))
+        list: options,
       }
     default:
       return state

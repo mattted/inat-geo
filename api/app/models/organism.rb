@@ -43,9 +43,9 @@ class Organism < ApplicationRecord
     end
   end
 
-  def self.cname
-    Rails.cache.fetch("org_cnames", expires_in: 12.hours) do
-      Organism.select(:cname).distinct.pluck(:cname).compact
+  def self.common
+    Rails.cache.fetch("org_common", expires_in: 12.hours) do
+      Organism.select(:common).distinct.pluck(:common).compact
     end
   end
 
