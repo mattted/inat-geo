@@ -99,7 +99,6 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state) {
-  console.log({...state.filter, geoType: state.geo.type})
   return {...state.filter, geoType: state.geo.type}
 }
 

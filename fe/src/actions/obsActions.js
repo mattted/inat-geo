@@ -6,7 +6,6 @@ const changeObs = (orgType, orgFilter, geoType) => {
     let url = `${geoType}_obs_by_query?search=${orgType};column=${orgFilter}`
     API.fetch(url)
       .then(data => dispatch({type: 'CHANGE_OBS', payload: {data: data, type: orgType}}))
-      .then(data => console.log(data))
   }
 } 
 

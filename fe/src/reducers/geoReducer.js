@@ -5,14 +5,11 @@ const geoReducer = (state = {
 } , action) => {
   switch(action.type) {
     case 'LOADING_GEO':
-      console.log("geoReducer action: LOADING_GEO")
       return {
         ...state,
         loading: true
       }
     case 'CHANGE_BASE_MAP':
-      console.log("geoReducer action: CHANGE_BASE_MAP")
-      console.log(action)
       return {
         ...state,
         type: action.payload.type,

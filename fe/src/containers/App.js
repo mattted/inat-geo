@@ -8,7 +8,6 @@ import MapContainer from './MapContainer'
 
 class App extends Component {
   componentDidMount() {
-    console.log("Calling initGeo()")
     this.props.changeGeo('counties')
     this.props.populateDatalist('kingdom')
   }
