@@ -32,7 +32,6 @@ class Filter extends Component {
   }
 
   handleGeoChange = (e) => {
-    console.log(e.target.value)
     if(this.props.listSel !== '') {
       this.props.changeObs(this.props.listSel, this.props.orgFilter, e.target.value)
     } else {

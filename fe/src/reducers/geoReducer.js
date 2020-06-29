@@ -16,6 +16,9 @@ const geoReducer = (state = {
         shp: action.payload.shp,
         loading: false
       }
+    case 'ZOOM_GEO':
+      console.log('inside zoomgeo')
+      return state
     default:
       return state
   }

@@ -8,4 +8,11 @@ const changeGeo = (geoType) => {
   }
 } 
 
-export {changeGeo}
+const zoomGeo = (gid, shp) => {
+  console.log(shp)
+  return {
+    type: 'ZOOM_GEO'
+  }
+}
+
+export {changeGeo, zoomGeo}
