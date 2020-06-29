@@ -31,6 +31,16 @@ class Filter extends Component {
     ]
   }
 
+  handleGeoChange = (e) => {
+    console.log(e.target.value)
+    if(this.props.listSel !== '') {
+      this.props.changeObs(this.props.listSel, this.props.orgFilter, e.target.value)
+    } else {
+      console.log('no change') 
+    }
+    this.props.changeGeo(e.target.value) 
+  }
+
   render() {
     return (
       <Container>
@@ -46,7 +56,7 @@ class Filter extends Component {
                   name={radio.name}
                   value={radio.value}
                   checked={radio.value === this.props.geoType}
-                  onChange={(e) => this.props.changeGeo(e.target.value)}
+                  onChange={this.handleGeoChange}
                 >
                   {radio.name}
                 </ToggleButton>
@@ -99,7 +109,7 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state) {
-  return {...state.filter, geoType: state.geo.type}
+  return {...state.filter, listSel: state.obs.type, geoType: state.geo.type}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter)
