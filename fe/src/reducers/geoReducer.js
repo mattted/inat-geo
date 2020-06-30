@@ -1,7 +1,7 @@
 const geoReducer = (state = {
   type: '',
   shp: {},
-  zoom: 0,
+  zoom: false,
   focus: '',
   loading: false,
 } , action) => {
@@ -20,7 +20,9 @@ const geoReducer = (state = {
       }
     case 'ZOOM_GEO':
       console.log('inside zoomgeo')
-      return state
+      return {
+        ...state,
+      }
     default:
       return state
   }

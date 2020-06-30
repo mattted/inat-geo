@@ -53,9 +53,7 @@ class Chloro extends Component {
 
   handleGeoClick = (e, d) => {
     e.persist()
-    console.log(e)
-    console.log(d)
-    // this.props.zoomGeo(e.target.attributes.gid.value, this.props.shp)
+    this.props.zoomGeo(d)
   }
 
   render() {
@@ -76,15 +74,16 @@ class Chloro extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    zoomGeo: (gid) => dispatch(zoomGeo(gid)),
+    zoomGeo: (gid, focus) => dispatch(zoomGeo(gid, focus)),
     // changeGeo: (selected) => dispatch(changeGeo(selected)),
     // changeObs: (selected, orgFilter, geoType) => dispatch(changeObs(selected, orgFilter, geoType)),
   }
 }
 
 function mapStateToProps(state) {
+  console.log(state)
   return {
-    shp: state.geo.shp,
+    ...state.geo,
     ...state.obs
   }
 }

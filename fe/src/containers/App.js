@@ -5,6 +5,7 @@ import {populateDatalist} from '../actions/filterActions'
 
 import Header from '../components/layout/Header'
 import MapContainer from './MapContainer'
+import PartitionContainer from './PartitionContainer'
 
 class App extends Component {
   componentDidMount() {
@@ -16,7 +17,8 @@ class App extends Component {
     return (
       <>
         <Header />
-        <MapContainer propTest="this is a prop test" />
+        <MapContainer />
+        <PartitionContainer />
       </>
     )
   }

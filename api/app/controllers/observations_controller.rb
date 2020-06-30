@@ -25,7 +25,7 @@ class ObservationsController < ApplicationController
   end
 
   def index
-    render json: ObservationSerializer.new(Observation.page(1).per(1000))
+    render json: Observation.all
   end
 
   def create

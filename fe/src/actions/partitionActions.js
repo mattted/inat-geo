@@ -1,17 +1,10 @@
 import API from '../api'
 
-const changeGeo = (geoType) => {
+const partitionData = () => {
+   
   return dispatch => {
-    dispatch({type: 'LOADING_GEO'})
+    dispatch({type: 'LOADING_PARTITION'})
     API.fetch(geoType)
       .then(data => dispatch({type: 'CHANGE_BASE_MAP', payload: {shp: data, type: geoType}}))
   }
 } 
-
-const zoomGeo = (focus) => {
-  return {
-    type: 'ZOOM_GEO'
-  }
-}
-
-export {changeGeo, zoomGeo}
