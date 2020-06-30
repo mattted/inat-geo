@@ -1,9 +1,3 @@
-// create svg ref 
-// render svg with ref and empty paths within (only keys)
-// use a draw function with standard d3 syntax to make transitions happen
-// move init map to draw map and run with componentDidUpdate and componentDidMount
-// d3 select ref select all path ---> use transition pattern .data(data).transition().duration(1000).attr(d, ...).style(fill....)
-
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Container from 'react-bootstrap/Container'
@@ -22,21 +16,35 @@ class Chloro extends Component {
       bottom: 10,
       left: 10
     };
-    console.log(props)
-    this.initMap()
+    this.boundedWidth = this.width - this.margin.left - this.margin.right
+    this.projection = d3.geoAlbersUsa()
+    this.drawMap()
   }
 
-  initMap = () => {
-    this.boundedWidth = this.width - this.margin.left - this.margin.right
-    this.genProj = d3.geoAlbersUsa()
-    this.projection = this.genProj.fitWidth(this.boundedWidth, this.props.shp)
+  drawMap = () => {
+    this.projection = this.projection.fitWidth(this.boundedWidth, this.props.shp)
     this.pathGenerator = d3.geoPath(this.projection)
     this.boundedHeight = this.pathGenerator.bounds(this.props.shp)[1][1]
     this.height = this.boundedHeight + this.margin.top + this.margin.bottom
+    
+    console.log(this.props)
+
+    d3.select(this.svgRef)
+      .selectAll('path')
+      .data(this.props.shp.features)
+      .attr('class', 'boundaries')
+      .transition()
+      .duration(1000)
+      .attr('d', d => this.pathGenerator(d))
+      .attr('fill', d => this.assignFill(d))
   }
 
   componentDidUpdate() {
-    this.initMap()
+    this.drawMap()
+  }
+
+  componentDidMount() {
+    this.drawMap()
   }
 
   assignFill = (d) => {
@@ -45,26 +53,21 @@ class Chloro extends Component {
       : "#ECEFF4"
   }
 
-  handleGeoClick = (e) => {
+  handleGeoClick = (e, d) => {
     e.persist()
-    this.props.zoomGeo(e.target.attributes.gid.value, this.props.shp)
+    console.log(e)
+    console.log(d)
+    // this.props.zoomGeo(e.target.attributes.gid.value, this.props.shp)
   }
 
   render() {
-    const boundaries = this.props.shp.features.map((d, i) => <path
-        key={d.id}
-        gid={d.id}
-        d={this.pathGenerator(d)}
-        style={{
-          fill: this.assignFill(d)
-        }}
-        className='boundaries' 
-        onClick={this.handleGeoClick}
-      />)
+    const boundaries = this.props.shp.features.map((d, i) => 
+      <path key={d.id} onClick={(e) => this.handleGeoClick(e, d)} />
+    )
     return (
       <Container fluid>
         <Row className='justify-content-center'>
-          <svg width={this.width} height={this.height}>
+          <svg width={this.width} height={this.height} ref={el => (this.svgRef = el)}>
             {boundaries}
           </svg>
         </Row>
