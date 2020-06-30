@@ -27,9 +27,7 @@ class Chloro extends Component {
     this.boundedHeight = this.pathGenerator.bounds(this.props.shp)[1][1]
     this.height = this.boundedHeight + this.margin.top + this.margin.bottom
     
-    console.log(this.props)
-
-    d3.select(this.svgRef)
+    d3.select(this.mapRef)
       .selectAll('path')
       .data(this.props.shp.features)
       .attr('class', 'boundaries')
@@ -67,7 +65,7 @@ class Chloro extends Component {
     return (
       <Container fluid>
         <Row className='justify-content-center'>
-          <svg width={this.width} height={this.height} ref={el => (this.svgRef = el)}>
+          <svg width={this.width} height={this.height} ref={el => (this.mapRef = el)}>
             {boundaries}
           </svg>
         </Row>

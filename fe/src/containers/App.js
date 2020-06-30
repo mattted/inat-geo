@@ -9,7 +9,7 @@ import MapContainer from './MapContainer'
 class App extends Component {
   componentDidMount() {
     this.props.changeGeo('counties')
-    this.props.populateDatalist('kingdom')
+    this.props.populateDatalist('kingdom', 'Kingdom')
   }
   
   render() {
@@ -25,7 +25,7 @@ class App extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     changeGeo: (geoType) => dispatch(changeGeo(geoType)),
-    populateDatalist: (orgType) => dispatch(populateDatalist(orgType))
+    populateDatalist: (orgType, orgName) => dispatch(populateDatalist(orgType, orgName))
   }
 }
 

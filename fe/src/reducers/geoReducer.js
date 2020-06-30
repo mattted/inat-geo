@@ -1,6 +1,8 @@
 const geoReducer = (state = {
   type: '',
   shp: {},
+  zoom: 0,
+  focus: '',
   loading: false,
 } , action) => {
   switch(action.type) {

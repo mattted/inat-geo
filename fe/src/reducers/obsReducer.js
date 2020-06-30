@@ -13,7 +13,6 @@ const obsReducer = (state = {
         loading: true
       }
     case 'CHANGE_OBS':
-      console.log(action.payload.data)
       let colorscale = d3.scaleLog()
         .domain([1, d3.extent(Object.values(action.payload.data))[1]])
         .interpolate(d3.interpolateHclLong)
@@ -22,6 +21,7 @@ const obsReducer = (state = {
         ...state,
         type: action.payload.type,
         data: action.payload.data,
+        category: action.payload.category,
         colorscale,
         loading: false
       }

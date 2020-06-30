@@ -75,7 +75,7 @@ class Filter extends Component {
                   name={radio.name}
                   value={radio.value}
                   checked={radio.value === this.props.orgFilter}
-                  onChange={(e) => this.props.populateDatalist(e.target.value)}
+                  onChange={(e) => this.props.populateDatalist(radio.value, radio.name)}
                 >
                   {radio.name}
                 </ToggleButton>
@@ -101,7 +101,7 @@ class Filter extends Component {
 
 function mapDispatchToProps(dispatch){
   return {
-    populateDatalist: (selected) => dispatch(populateDatalist(selected)),
+    populateDatalist: (selected, selName) => dispatch(populateDatalist(selected, selName)),
     changeGeo: (selected) => dispatch(changeGeo(selected)),
     changeObs: (selected, orgFilter, geoType) => dispatch(changeObs(selected, orgFilter, geoType)),
   } 

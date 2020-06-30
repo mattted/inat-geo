@@ -9,7 +9,6 @@ const changeGeo = (geoType) => {
 } 
 
 const zoomGeo = (gid, shp) => {
-  console.log(shp)
   return {
     type: 'ZOOM_GEO'
   }
