@@ -22,84 +22,32 @@ class Partition extends Component {
   }
 
   drawPartition = () => {
-    const margin = {top: 20, bottom: 20, right: 20, left: 20},
-        width = 800 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
 
+    const svg = this.partitionRef
+    // nest flat tabular data by keys 
     const entries = d3.nest()
-      .key(d => d.kingdom)
+      .key(d => d.phylum)
+      .key(d => d.klass)
+      .key(d => d.order)
+      .key(d => d.family)
+      .key(d => d.genus)
+      .key(d => d.species)
       .entries(this.props.partition.aggData)
-
-    const tree = d3.treemap()
-      .size([width, height])
-      .padding(0)
-      .tile(d3.treemapSquarify.ratio(1))
-
-    const colorScale = d3.scaleOrdinal()
-      .domain(entries.map(el => el.key))
-      .range(d3.range(0, entries.length + 1).map(i => d3.interpolateSpectral(i/entries.length)))
-
-    const chart = d3.select(this.partitionRef)
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  
-    const legend = chart.append('g')
-      .attr('class', 'legend')
-      .attr('transform', `translate(0, ${height})`)
-
-    legend.selectAll('rect')
-      .data(colorScale.domain())
-      .enter()
-      .append('rect')
-      .attr('x', (d,i) => i * 50)
-      .attr('fill', colorScale)
-      .attr('width', 100)
-      .attr('height', 20)
-
-    legend.selectAll('text')
-      .data(colorScale.domain())
-      .enter()
-      .append('text')
-      .attr('x', (d,i) => i * 50)
-      .attr('dy', 15)
-      .attr('dx', 2)
-      .text(d => d)
-
+    console.log(entries)
+    // convert to hierarchy format with nodes/data/children
     const root = d3.hierarchy({values: entries}, d => d.values)
       .sum(data => data.count)
       .sort((a,b) => b.value - a.value)
 
-    tree(root)
-    console.log(root)
+    const color = () => d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, root.children.length + 1))
 
-    const groups = chart.selectAll('.node')
-      .data(root.leaves(), d => d.data.phylum) 
-
-    const newGroups = groups
-      .enter()
-      .append('g')
-      .attr('class', 'node')
-      .on('click', d => console.log(d))
-      // .on('mouseover', mouseover)
-    
-    newGroups.append('rect')
-      .style('fill', d => colorScale(d.parent ? d.parent.data.key : 'red'))
-      .style('stroke', 'black')
-      .attr('width', (d,i) => d.x1 - d.x0)
-      .attr('height', (d,i) => d.y1 - d.y0)
-
-    const allGroups = groups.merge(newGroups)
-
-    allGroups.transition().duration(2000)
-      .attr('transform', d => `translate(${d.x0}, ${d.y0})`)
-
-    allGroups.select('rect')
-      .transition().duration(2000)
-      .attr('width', (d,i) => d.x1 - d.x0)
-      .attr('height', (d,i) => (d.y1 - d.y0))
-
+    const g = svg.append('g')
+      .selectAll('path')
+      .data(root.descendants.slice(1))
+      .join('path')
+      .attr('fill', d => { while (d.depth > 1) d = d.parent; return color(d.data.name); })
+      .attr('fill-opacity', d => arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
+      .attr('d', d => arc(d.current))
   }
 
   render(){

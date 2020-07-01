@@ -34,8 +34,19 @@ class Observation < ApplicationRecord
   end
 
   def self.county_partition(parent, child)
-    sql = 'select b.kingdom, b.phylum, count(b.phylum) from observations a inner join organisms b on a.tid = b.tid group by b.kingdom, b.phylum'
-    ActiveRecord::Base.connection.execute(sql)
+    # sql = 'select b.kingdom, b.phylum, count(b.phylum) from observations a inner join organisms b on a.tid = b.tid group by b.kingdom, b.phylum'
+    sql = <<-SQL
+      select b.phylum, b.klass, b.order, b.family, b.genus, b.species, count(b.species)
+      from observations a
+      inner join organisms b
+      on a.tid = b.tid
+      where b.kingdom = 'Animalia'
+      group by b.phylum, b.klass, b.order, b.family, b.genus, b.species;
+    SQL
+
+    # Rails.cache.fetch("partition_data_test", expires_in: 12.hours) do
+      ActiveRecord::Base.connection.execute(sql)
+    # end
   end
 
   def self.obs_for_inforec(column, searchable)

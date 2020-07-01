@@ -14,7 +14,7 @@ class Partition extends Component {
   }
 
   componentDidMount() {
-    // this.drawPartition()
+    this.drawPartition()
   }
 
   componentDidUpdate() {
@@ -23,8 +23,8 @@ class Partition extends Component {
 
   drawPartition = () => {
     const margin = {top: 20, bottom: 20, right: 20, left: 20},
-        width = 600 - margin.left - margin.right,
-        height = 600 - margin.top - margin.bottom;
+        width = 800 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
 
     const entries = d3.nest()
       .key(d => d.kingdom)
@@ -32,12 +32,12 @@ class Partition extends Component {
 
     const tree = d3.treemap()
       .size([width, height])
-      .padding(2)
+      .padding(0)
       .tile(d3.treemapSquarify.ratio(1))
 
     const colorScale = d3.scaleOrdinal()
       .domain(entries.map(el => el.key))
-      .range(d3.range(0, entries.length + 1).map(i => d3.interpolateWarm(i/entries.length)))
+      .range(d3.range(0, entries.length + 1).map(i => d3.interpolateSpectral(i/entries.length)))
 
     const chart = d3.select(this.partitionRef)
       .attr("width", width + margin.left + margin.right)
@@ -81,7 +81,7 @@ class Partition extends Component {
       .enter()
       .append('g')
       .attr('class', 'node')
-      .on('click', d => console.log(d.data.kingdom))
+      .on('click', d => console.log(d))
       // .on('mouseover', mouseover)
     
     newGroups.append('rect')
@@ -95,41 +95,16 @@ class Partition extends Component {
     allGroups.transition().duration(2000)
       .attr('transform', d => `translate(${d.x0}, ${d.y0})`)
 
-    allGroups.transition().duration(2000)
+    allGroups.select('rect')
+      .transition().duration(2000)
       .attr('width', (d,i) => d.x1 - d.x0)
       .attr('height', (d,i) => (d.y1 - d.y0))
 
   }
 
-  nestData = (data) => {
-    this.treemap = data => d3.treemap()
-      .size([500, 500])
-      .padding(2)
-      .round(true)
-      (d3.hierarchy(data)
-      .sum(d => d.value)
-      .sort((a,b) => b.value - a.value))
-
-    this.test = d3.nest()
-      .key(d => d.kingdom)
-      .key(d => d.phylum)
-      .rollup(leaves => d3.sum(leaves, d => d.count))
-      .entries(this.props.partition.aggData)
-      .map(d => ({ name: d.key, children: d.values }))
-
-    this.test = {name: 'root', children: this.test}
-
-    return d3.nest()
-      .key(d => d.kingdom)
-      .key(d => d.phylum)
-      .rollup(leaves => d3.sum(leaves, d => d.count))
-      .entries(data)
-      .map(d => ({name: d.key, children: d.values}))
-  }
-
   render(){
     return (
-      <Container>
+      <Container fluid>
         <Row className='justify-content-center mb-4'>
           <svg ref={el => (this.partitionRef = el)} />
         </Row>
