@@ -24,6 +24,10 @@ class ObservationsController < ApplicationController
     end
   end
 
+  def counties_partition
+    render json: Observation.county_partition('test', 'test')
+  end
+
   def index
     render json: Observation.all
   end

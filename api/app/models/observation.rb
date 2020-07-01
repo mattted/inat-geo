@@ -30,6 +30,11 @@ class Observation < ApplicationRecord
     end
   end
 
+  def self.county_partition(parent, child)
+    sql = 'select b.kingdom, b.phylum, count(b.phylum) from observations a inner join organisms b on a.tid = b.tid group by b.kingdom, b.phylum'
+    ActiveRecord::Base.connection.execute(sql)
+  end
+
   def self.obs_for_inforec(column, searchable)
     selection = 'observations.date, counties.name, states.name as state, organisms.*, observations.inat'
     Observation.joins(:organism).joins(county: :state).select(selection)

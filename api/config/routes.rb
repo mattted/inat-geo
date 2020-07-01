@@ -18,5 +18,6 @@ Rails.application.routes.draw do
     get 'genus', to: 'organisms#genus'
     get 'species', to: 'organisms#species'
     get 'common', to: 'organisms#common'
+    get 'counties_partition', to: 'observations#counties_partition'
   end
 end
