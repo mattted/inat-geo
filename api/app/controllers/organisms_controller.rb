@@ -32,4 +32,8 @@ class OrganismsController < ApplicationController
     render json: Organism.common
   end
 
+  def datalist
+    render json: Organism.datalist(params)
+  end
+
 end

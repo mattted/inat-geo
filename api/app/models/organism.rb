@@ -49,4 +49,10 @@ class Organism < ApplicationRecord
     end
   end
 
+  def self.datalist(params)
+    Rails.cache.fetch("#{params["kingdom"]}_#{params["subcat"]}_datalist", expires_in: 12.hours) do
+      Organism.select(params["subcat"].to_sym).where(kingdom: params["kingdom"]).distinct.order(params["subcat"].to_sym).pluck(params["subcat"].to_sym).compact
+    end
+  end
+
 end

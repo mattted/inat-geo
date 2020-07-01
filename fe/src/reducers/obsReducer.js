@@ -1,7 +1,7 @@
 import * as d3 from 'd3'
 
 const obsReducer = (state = {
-  type: '',
+  selection: '',
   data: {},
   colorscale: '',
   loading: false,
@@ -19,9 +19,8 @@ const obsReducer = (state = {
         .range(["#ECEFF4", "#4C566A"])
       return {
         ...state,
-        type: action.payload.type,
+        selection: action.payload.selection,
         data: action.payload.data,
-        category: action.payload.category,
         colorscale,
         loading: false
       }

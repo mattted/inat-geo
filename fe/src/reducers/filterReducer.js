@@ -1,5 +1,6 @@
 const filterReducer = (state = {
-  orgFilter: '',
+  kingdom: 'Animalia',
+  subcat: 'phylum',
   list: [],
   loading: false,
 } , action) => {
@@ -10,11 +11,12 @@ const filterReducer = (state = {
         loading: true
       }
     case 'POPULATE_DATALIST':
+      // transform list data for windowed select
       let options = action.payload.list.map(item => ({value: item, label: item}))
       return {
         ...state,
-        orgFilter: action.payload.orgFilter,
-        orgCat: action.payload.orgCat,
+        kingdom: action.payload.kingdom,
+        subcat: action.payload.subcat,
         loading: false,
         list: options,
       }

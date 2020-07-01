@@ -19,8 +19,7 @@ class Filter extends Component {
       {name: 'County', value: 'counties'},
       {name: 'State', value: 'states'},
     ]
-    this.orgRadios =  [
-      {name: 'Kingdom', value: 'kingdom'},
+    this.subcatRadios =  [
       {name: 'Phylum', value: 'phylum'},
       {name: 'Class', value: 'klass'},
       {name: 'Order', value: 'order'},
@@ -29,11 +28,17 @@ class Filter extends Component {
       {name: 'Species', value: 'species'},
       {name: 'Common Name', value: 'common'},
     ]
+    this.kingdomRadios =  [
+      {name: 'Animals', value: 'Animalia'},
+      {name: 'Plants', value: 'Plantae'},
+      {name: 'Fungi', value: 'Fungi'},
+    ]
   }
 
   handleGeoChange = (e) => {
-    if(this.props.listSel !== '') {
-      this.props.changeObs(this.props.listSel, this.props.orgFilter, e.target.value)
+    if(this.props.selection !== '') {
+      // TODO: need to fix changeObs args
+      this.props.changeObs(this.props.selection, this.props.subcat, this.props.kingdom, e.target.value)
     } else {
       console.log('no change') 
     }
@@ -54,7 +59,7 @@ class Filter extends Component {
                   variant='primary'
                   name={radio.name}
                   value={radio.value}
-                  checked={radio.value === this.props.geoType}
+                  checked={radio.value === this.props.geo}
                   onChange={this.handleGeoChange}
                 >
                   {radio.name}
@@ -66,7 +71,7 @@ class Filter extends Component {
         <Row className='justify-content-center mt-1'>
           <Col className='col-10 mx-auto text-center'>
             <ButtonGroup toggle>
-              {this.orgRadios.map((radio, i) => (
+              {this.kingdomRadios.map((radio, i) => (
                 <ToggleButton
                   key={i}
                   size='sm'
@@ -74,8 +79,28 @@ class Filter extends Component {
                   variant='primary'
                   name={radio.name}
                   value={radio.value}
-                  checked={radio.value === this.props.orgFilter}
-                  onChange={(e) => this.props.populateDatalist(radio.value, radio.name)}
+                  checked={radio.value === this.props.kingdom}
+                  onChange={(e) => this.props.populateDatalist(radio.value, this.props.subcat)}
+                >
+                  {radio.name}
+                </ToggleButton>
+              ))}
+            </ButtonGroup>
+          </Col>
+        </Row>
+        <Row className='justify-content-center mt-1'>
+          <Col className='col-10 mx-auto text-center'>
+            <ButtonGroup toggle>
+              {this.subcatRadios.map((radio, i) => (
+                <ToggleButton
+                  key={i}
+                  size='sm'
+                  type='radio'
+                  variant='primary'
+                  name={radio.name}
+                  value={radio.value}
+                  checked={radio.value === this.props.subcat}
+                  onChange={(e) => this.props.populateDatalist(this.props.kingdom, radio.value)}
                 >
                   {radio.name}
                 </ToggleButton>
@@ -89,7 +114,8 @@ class Filter extends Component {
             <WindowedSelect 
               options={this.props.list}
               filterOption={createFilter({ignoreAccents: false})}
-              onChange={(sel) => this.props.changeObs(sel.value, this.props.orgFilter, this.props.geoType)}
+              // TODO: fix changeObs arguments
+              onChange={(sel) => this.props.changeObs(sel.value, this.props.subcat, this.props.kingdom, this.props.geo)}
             />
           </Col>
           <Col />
@@ -101,14 +127,15 @@ class Filter extends Component {
 
 function mapDispatchToProps(dispatch){
   return {
-    populateDatalist: (selected, selName) => dispatch(populateDatalist(selected, selName)),
+    populateDatalist: (kingdom, subcat) => dispatch(populateDatalist(kingdom, subcat)),
     changeGeo: (selected) => dispatch(changeGeo(selected)),
-    changeObs: (selected, orgFilter, geoType) => dispatch(changeObs(selected, orgFilter, geoType)),
+    changeObs: (selected, subcat, kingdom, geo) => dispatch(changeObs(selected, subcat, kingdom, geo)),
   } 
 }
 
 function mapStateToProps(state) {
-  return {...state.filter, listSel: state.obs.type, geoType: state.geo.type}
+  console.log(state)
+  return {...state.filter, selection: state.obs.selection, geo: state.geo.type}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter)

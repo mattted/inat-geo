@@ -10,7 +10,7 @@ import PartitionContainer from './PartitionContainer'
 class App extends Component {
   componentDidMount() {
     this.props.changeGeo('counties')
-    this.props.populateDatalist('kingdom', 'Kingdom')
+    this.props.populateDatalist('Animalia', 'phylum')
   }
   
   render() {
@@ -27,7 +27,7 @@ class App extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     changeGeo: (geoType) => dispatch(changeGeo(geoType)),
-    populateDatalist: (orgType, orgName) => dispatch(populateDatalist(orgType, orgName))
+    populateDatalist: (kingdom, subcat) => dispatch(populateDatalist(kingdom, subcat))
   }
 }
 

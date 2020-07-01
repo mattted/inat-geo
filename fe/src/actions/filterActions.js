@@ -1,10 +1,11 @@
 import API from '../api'
 
-const populateDatalist = (orgType, orgCat) => {
+const populateDatalist = (kingdom, subcat) => {
+  let url = `datalist?kingdom=${kingdom};subcat=${subcat}`
   return dispatch => {
     dispatch({type: 'LOADING_DATALIST'})
-    API.fetch(orgType)
-      .then(data => dispatch({type: 'POPULATE_DATALIST', payload: {list: data, orgFilter: orgType, orgCat: orgCat}}))
+    API.fetch(url)
+      .then(data => dispatch({type: 'POPULATE_DATALIST', payload: {list: data, kingdom: kingdom, subcat: subcat}}))
   }
 } 
 

@@ -64,7 +64,20 @@ class Legend extends Component {
       .attr('y', -6)
       .attr('class', 'legend-byline')
       .attr('text-anchor', 'middle')
-      .text(`${this.props.category} ${this.props.type}`)
+      .text(`${this.formattedName(this.props.subcat)} ${this.props.selection}`)
+  }
+
+  formattedName = (name) => {
+    let subcatNames = {
+      phylum: 'Phylum',
+      klass: 'Class',
+      order: 'Order',
+      family: 'Family',
+      genus: 'Genus',
+      species: 'Species',
+      common: 'Common Name'
+    }
+    return subcatNames[name]
   }
 
   render(){
@@ -80,10 +93,10 @@ class Legend extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    type: state.obs.type,
+    selection: state.obs.selection,
+    subcat: state.filter.subcat,
     data: state.obs.data,
     colorscale: state.obs.colorscale,
-    category: state.filter.orgCat,
   }
 }
 

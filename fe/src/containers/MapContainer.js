@@ -11,7 +11,7 @@ class MapContainer extends Component {
       <>
         <Filter />
         {this.props.map_loaded ? <Chloro /> : <p>loading</p>}
-        {this.props.obs_selected ? <Legend /> : <p></p>}
+        {this.props.obs_selected ? <Legend /> : ''}
       </>
     )
   }
@@ -20,7 +20,7 @@ class MapContainer extends Component {
 function mapStateToProps(state) {
   return {
     map_loaded: state.geo.type !== '',
-    obs_selected: state.obs.type !== ''
+    obs_selected: state.obs.selection !== ''
   }
 }
 

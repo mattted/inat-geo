@@ -10,14 +10,7 @@ Rails.application.routes.draw do
     get 'obs_for_inforec', to: 'observations#obs_for_inforec'
     get 'counties_obs_by_query', to: 'observations#counties_obs_by_query'
     get 'states_obs_by_query', to: 'observations#states_obs_by_query'
-    get 'kingdom', to: 'organisms#kingdom'
-    get 'phylum', to: 'organisms#phylum'
-    get 'order', to: 'organisms#order'
-    get 'klass', to: 'organisms#klass'
-    get 'family', to: 'organisms#family'
-    get 'genus', to: 'organisms#genus'
-    get 'species', to: 'organisms#species'
-    get 'common', to: 'organisms#common'
     get 'counties_partition', to: 'observations#counties_partition'
+    get 'datalist', to: 'organisms#datalist'
   end
 end
