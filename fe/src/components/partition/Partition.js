@@ -9,7 +9,7 @@ import {partitionData} from '../../actions/partitionActions'
 class Partition extends Component {
   constructor(props){
     super(props)
-    this.width = 300
+    this.width = 932
     this.radius = this.width / 6
   }
 
@@ -21,41 +21,44 @@ class Partition extends Component {
     this.drawPartition()
   }
 
-  arcVisible = d => d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0
-
-  labelVisible = d => d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03
-
-  labelTransform = d => {
-    const x = (d.x0 + d.x1) / 2 * 180 / Math.PI
-    const y = (d.y0 + d.y1) / 2 * this.radius;
-    return `rotate(${x-90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`
-  }
-
   partition = (root) => d3.partition().size([2 * Math.PI, root.height + 1])(root)
 
   format = d3.format(",d")
 
-  arc = d3.arc()
-    .startAngle(d => d.x0)
-    .endAngle(d => d.x1)
-    .padAngle(d => Math.min((d.x1 -d.x0) / 2, 0.005))
-    .padRadius(this.radius * 1.5)
-    .innerRadius(d => d.y0 * this.radius)
-    .outerRadius(d => Math.max(d.y0 * this.radius, d.y1 * this.radius -1))
-
-
   drawPartition = () => {
+    function arcVisible(d) {
+      return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0
+    }
+
+    function labelVisible(d) {
+      return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03
+    }
+
+    const labelTransform = d => {
+      const x = (d.x0 + d.x1) / 2 * 180 / Math.PI
+      const y = (d.y0 + d.y1) / 2 * this.radius;
+      return `rotate(${x-90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`
+    }
+
+    const arc = d3.arc()
+      .startAngle(d => d.x0)
+      .endAngle(d => d.x1)
+      .padAngle(d => Math.min((d.x1 -d.x0) / 2, 0.005))
+      .padRadius(this.radius * 1.5)
+      .innerRadius(d => d.y0 * this.radius)
+      .outerRadius(d => Math.max(d.y0 * this.radius, d.y1 * this.radius -1))
+
 
     const svg = d3.select(this.partitionRef).attr('viewBox', [0, 0, this.width, this.width]).style('font', '9px sans-sefif')
     // nest flat tabular data by keys 
     const entries = d3.nest()
-      .key(d => d.phylum)
+      // .key(d => d.phylum)
       .key(d => d.klass)
       .key(d => d.order)
       .key(d => d.family)
       .key(d => d.genus)
       // .key(d => d.species)
-      .entries(this.props.partition.aggData)
+      .entries(this.props.aggData)
     // convert to hierarchy format with nodes/data/children
     const nested = d3.hierarchy({values: entries}, d => d.values)
       .sum(data => data.count)
@@ -70,25 +73,20 @@ class Partition extends Component {
     //   .interpolate(d3.interpolateHclLong)
     //   .range(["#ECEFF4", "#4C566A"])
 
-    console.log('where are we getting jammed up')
     const g = svg.append('g')
       .attr('transform', `translate(${this.width / 2}, ${this.width / 2})`)
 
-    console.log('probably about here')
     const path = g.append('g')
       .selectAll('path')
       .data(root.descendants().slice(1))
       .join('path')
       .attr('fill', d => {while (d.depth > 1) d = d.parent; return color(d.data.key);})
-      .attr('fill-opacity', d => this.arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
-      .attr('d', d => this.arc(d.current))
-
-
-    console.log('yes?')
+      .attr('fill-opacity', d => arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
+      .attr('d', d => arc(d.current))
 
     path.filter(d => d.children)
       .style('cursor', 'pointer')
-      // .on('click', this.handleClick)
+      .on('click', clicked)
 
     path.append('title')
       .text(d => `${d.ancestors().map(d => d.data.key).reverse().join("/")}\n${this.format(d.value)}`)
@@ -101,8 +99,8 @@ class Partition extends Component {
       .data(root.descendants().slice(1))
       .join('text')
       .attr('dy', '0.35rem')
-      .attr('fill-opacity', d => +this.labelVisible(d.current))
-      .attr('transform', d => this.labelTransform(d.current))
+      .attr('fill-opacity', d => +labelVisible(d.current))
+      .attr('transform', d => labelTransform(d.current))
       .text(d => d.data.key)
 
     const parent = g.append('circle')
@@ -110,8 +108,35 @@ class Partition extends Component {
       .attr('r', this.radius)
       .attr('fill', 'none')
       .attr('pointer-events', 'all')
-      // .on('click', this.handleClick)
+      .on('click', clicked)
 
+    function clicked(p) {
+      parent.datum(p.parent || root)
+      root.each(d => d.target = {
+        x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+        x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+        y0: Math.max(0, d.y0 - p.depth),
+        y1: Math.max(0, d.y1 - p.depth)
+      });
+
+      const t = g.transition().duration(500)
+
+      path.transition(t)
+        .tween('data', d => {
+          const i = d3.interpolate(d.current, d.target)
+          return t => d.current = i(t)
+        })
+        .filter(function(d) {
+          return +this.getAttribute('fill-oapcity') || arcVisible(d.target);
+        })
+        .attr('fill-opacity', d => arcVisible(d.target) ? (d.children ? 0.6 : 0.4) : 0)
+        .attrTween('d', d => () => arc(d.current));
+
+      label.filter(d => +this.getAttribute('fill-opacity') || labelVisible(d.target))
+        .transition(t)
+        .attr('fill-opacity', d => +labelVisible(d.target))
+        .attrTween('transform', d => () => labelTransform(d.current));
+    }
   }
 
   render(){
@@ -133,7 +158,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    ...state
+    aggData: state.partition.aggData
   }
 }
 

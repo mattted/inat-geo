@@ -14,7 +14,7 @@ class Partition extends Component {
   }
 
   componentDidMount() {
-    this.drawPartition()
+    // this.drawPartition()
   }
 
   componentDidUpdate() {
