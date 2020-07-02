@@ -8,10 +8,11 @@ const changeGeo = (geoType) => {
   }
 } 
 
-const zoomGeo = (focus) => {
+const selectGeo = (id) => {
   return {
-    type: 'ZOOM_GEO'
+    type: 'SELECT_GEO',
+    payload: {geoid: id}
   }
 }
 
-export {changeGeo, zoomGeo}
+export {changeGeo, selectGeo}

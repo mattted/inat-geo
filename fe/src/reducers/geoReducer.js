@@ -1,5 +1,6 @@
 const geoReducer = (state = {
   type: '',
+  geoid: '',
   shp: {},
   zoom: false,
   focus: '',
@@ -18,10 +19,11 @@ const geoReducer = (state = {
         shp: action.payload.shp,
         loading: false
       }
-    case 'ZOOM_GEO':
+    case 'SELECT_GEO':
       console.log('inside zoomgeo')
       return {
         ...state,
+        geoid: action.payload.geoid
       }
     default:
       return state

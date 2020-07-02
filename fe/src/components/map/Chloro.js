@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import * as d3 from 'd3'
 
-import {zoomGeo} from '../../actions/geoActions'
+import {selectGeo} from '../../actions/geoActions'
 
 class Chloro extends Component {
   constructor(props) {
@@ -50,9 +50,16 @@ class Chloro extends Component {
       .selectAll('path')
       .data(this.props.shp.features)
       .attr('class', 'boundaries')
-      .on('mouseover', d => this.highlight(d, this.tipRef))
-      .on('mouseout', this.unhighlight)
-      .on('click', (d) => this.clicked(d, this.pathGenerator, this.zoom, this.width, this.height))
+      .on('mouseover', d => this.highlight(d, this.tipRef, this.props.data))
+      .on('mouseout', d => this.unhighlight(d, this.tipRef))
+      .on('click', d => {
+        if (this.props.geoid === d.id) {
+          this.reset(this.zoom, this.height, this.width)
+        } else {
+          this.props.selectGeo(d.id)
+          this.clicked(d, this.pathGenerator, this.zoom, this.width, this.height)
+        }
+      })
       .transition()
       .duration(1000)
       .attr('d', d => this.pathGenerator(d))
@@ -61,13 +68,11 @@ class Chloro extends Component {
     d3.select(this.mapRef).call(this.zoom)
   }
 
-  highlight(d, tipRef) {
+  highlight(d, tipRef, data) {
     // highlight boundary geometry
     d3.select(d3.event.target)
       .style('stroke', '#4c566a')
       .style('stroke-width', '1px')
-
-    debugger
 
     // add tooltip
     d3.select(tipRef)
@@ -75,13 +80,21 @@ class Chloro extends Component {
       .style('opacity', 1)
       .style('left', `${d3.event.pageX + 30}px`)
       .style('top', `${d3.event.pageY - 30}px`)
+      .select('.geoname')
       .text(`${d.properties.name} County`)
+    d3.select(tipRef)
+      .select('.obscount')
+      .text(`${data[d.id] ? data[d.id] : 'N/A'}`)
   }
 
-  unhighlight(d) {
-    d3.select(this)
+  unhighlight(d, tipRef) {
+    d3.select(d3.event.target)
       .style('stroke-width', '0.1px')
       .style('stroke', '#3b4252')
+
+    d3.select(tipRef)
+      .transition().duration(200)
+      .style('opacity', 0)
   }
 
   assignFill = (d) => {
@@ -132,7 +145,10 @@ class Chloro extends Component {
               {boundaries}
             </g>
           </svg>
-          <div className='tooltip' style={{position: 'absolute', opacity: 0}} ref={el => (this.tipRef = el)} />
+          <div className='tooltip' style={{position: 'absolute', opacity: 0}} ref={el => (this.tipRef = el)}>
+            <p className='geoname'></p>
+            <p className='obscount'></p> 
+          </div>
         </Row>
       </Container>
     )
@@ -141,9 +157,7 @@ class Chloro extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    // zoomGeo: (gid, focus) => dispatch(zoomGeo(gid, focus)),
-    // changeGeo: (selected) => dispatch(changeGeo(selected)),
-    // changeObs: (selected, orgFilter, geoType) => dispatch(changeObs(selected, orgFilter, geoType)),
+    selectGeo: (geoid) => dispatch(selectGeo(geoid)),
   }
 }
 
