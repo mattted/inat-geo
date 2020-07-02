@@ -35,13 +35,15 @@ class Observation < ApplicationRecord
 
   def self.county_partition(parent, child)
     # sql = 'select b.kingdom, b.phylum, count(b.phylum) from observations a inner join organisms b on a.tid = b.tid group by b.kingdom, b.phylum'
+    # , b.order, b.family, b.genus, b.species, count(b.species)
+    # , b.order, b.family, b.genus, b.species;
     sql = <<-SQL
-      select b.phylum, b.klass, b.order, b.family, b.genus, b.species, count(b.species)
+      select b.phylum, b.klass, b.order, b.family, b.genus, count(b.genus)
       from observations a
       inner join organisms b
       on a.tid = b.tid
       where b.kingdom = 'Animalia'
-      group by b.phylum, b.klass, b.order, b.family, b.genus, b.species;
+      group by b.phylum, b.klass, b.order, b.family, b.genus;
     SQL
 
     # Rails.cache.fetch("partition_data_test", expires_in: 12.hours) do
