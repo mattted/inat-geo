@@ -134,7 +134,6 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state) {
-  console.log(state)
   return {...state.filter, selection: state.obs.selection, geo: state.geo.type}
 }
 

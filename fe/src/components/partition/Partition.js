@@ -9,7 +9,7 @@ import {partitionData} from '../../actions/partitionActions'
 class Partition extends Component {
   constructor(props){
     super(props)
-    this.width = 932
+    this.width = 600 
     this.radius = this.width / 6
   }
 

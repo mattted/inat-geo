@@ -25,3 +25,12 @@
 .legend {
   font-size: 0.6rem;
 }
+
+.tooltip {
+  font-size: 0.6rem;
+  color: $nord3;
+  padding: 3px;
+  background-color: white;
+  border: 1px solid $nordRed;
+  border-radius: 3px;
+}
