@@ -3,6 +3,7 @@ import * as d3 from 'd3'
 const obsReducer = (state = {
   selection: '',
   data: {},
+  table: {},
   colorscale: '',
   loading: false,
 } , action) => {
@@ -23,6 +24,12 @@ const obsReducer = (state = {
         data: action.payload.data,
         colorscale,
         loading: false
+      }
+    case 'OBS_TABLE':
+      console.log('Table fetch reducer')
+      return {
+        ...state,
+        table: action.payload.table,
       }
     default:
       return state

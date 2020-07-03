@@ -115,7 +115,7 @@ class Filter extends Component {
               options={this.props.list}
               filterOption={createFilter({ignoreAccents: false})}
               // TODO: fix changeObs arguments
-              onChange={(sel) => this.props.changeObs(sel.value, this.props.subcat, this.props.kingdom, this.props.geo)}
+              onChange={(sel) => this.props.changeObs(sel.value, this.props.subcat, this.props.kingdom, this.props.geo, this.props.geoid)}
             />
           </Col>
           <Col />
@@ -129,12 +129,12 @@ function mapDispatchToProps(dispatch){
   return {
     populateDatalist: (kingdom, subcat) => dispatch(populateDatalist(kingdom, subcat)),
     changeGeo: (selected) => dispatch(changeGeo(selected)),
-    changeObs: (selected, subcat, kingdom, geo) => dispatch(changeObs(selected, subcat, kingdom, geo)),
+    changeObs: (selected, subcat, kingdom, geo, geoid) => dispatch(changeObs(selected, subcat, kingdom, geo, geoid)),
   } 
 }
 
 function mapStateToProps(state) {
-  return {...state.filter, selection: state.obs.selection, geo: state.geo.type}
+  return {...state.filter, selection: state.obs.selection, geo: state.geo.type, geoid: state.geo.geoid}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter)

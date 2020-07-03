@@ -125,7 +125,7 @@ class Chloro extends Component {
     )
   }
 
-  reset = (zoom, h, w) => {
+  reset = (zoom, h, w, selectGeo=this.props.selectGeo) => {
     const svg = d3.select(this.mapRef)
 
     svg.transition().duration(750).call(
@@ -133,6 +133,7 @@ class Chloro extends Component {
       d3.zoomIdentity,
       d3.zoomTransform(svg.node()).invert([w / 2, h / 2])
     )
+    selectGeo('')
   }
 
   render() {

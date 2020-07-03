@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {changeGeo} from '../actions/geoActions'
 import {populateDatalist} from '../actions/filterActions'
-import {partitionData} from '../actions/partitionActions'
+// import {partitionData} from '../actions/partitionActions'
 
 import Header from '../components/layout/Header'
 import MapContainer from './MapContainer'
-import PartitionContainer from './PartitionContainer'
+import Obs from '../components/obs/Obs'
 
 class App extends Component {
   componentDidMount() {
@@ -20,7 +20,7 @@ class App extends Component {
       <>
         <Header />
         <MapContainer />
-        {/* <PartitionContainer /> */}
+        <Obs />
       </>
     )
   }
@@ -30,7 +30,6 @@ const mapDispatchToProps = dispatch => {
   return {
     changeGeo: (geoType) => dispatch(changeGeo(geoType)),
     populateDatalist: (kingdom, subcat) => dispatch(populateDatalist(kingdom, subcat)),
-    partitionData: () => dispatch(partitionData())
   }
 }
 

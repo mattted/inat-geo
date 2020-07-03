@@ -20,7 +20,6 @@ const geoReducer = (state = {
         loading: false
       }
     case 'SELECT_GEO':
-      console.log('inside zoomgeo')
       return {
         ...state,
         geoid: action.payload.geoid
