@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_025843) do
+ActiveRecord::Schema.define(version: 2020_07_03_182533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_025843) do
     t.geometry "geom", limit: {:srid=>4269, :type=>"st_point"}
     t.bigint "organism_id"
     t.bigint "county_id"
+    t.text "img", default: [], array: true
     t.index ["county_id"], name: "index_observations_on_county_id"
     t.index ["date"], name: "index_observations_on_date"
     t.index ["geom"], name: "index_observations_on_geom", using: :gist
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_025843) do
     t.string "genus"
     t.string "common"
     t.integer "tid"
+    t.text "img", default: [], array: true
     t.index ["common"], name: "index_organisms_on_common"
     t.index ["family"], name: "index_organisms_on_family"
     t.index ["genus"], name: "index_organisms_on_genus"
