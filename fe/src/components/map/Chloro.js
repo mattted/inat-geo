@@ -146,7 +146,7 @@ class Chloro extends Component {
     const boundaries = this.props.shp.features.map((d, i) => <path key={d.id}/>)
     return (
       <Container fluid>
-        <Row className='justify-content-center'>
+        <Row className='justify-content-center my-3'>
           <svg width={this.width} height={this.height} ref={el => (this.mapRef = el)}>
             <g ref={el => (this.gRef = el)}>
               {boundaries}

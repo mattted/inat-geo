@@ -8,8 +8,8 @@ const changeObs = (selection, subcat, kingdom, geo, geoid) => {
       .then(data => dispatch({type: 'CHANGE_OBS', payload: {data: data, selection: selection}}))
 
     const tableURL = geoid === ''
-      ? `obs_for_inforec?column=${subcat};search=${selection}`
-      : `obs_for_inforec?column=${subcat};search=${selection};geotype=${geo};geoid=${geoid}`
+      ? `obs_for_inforec?column=${subcat};search=${selection};page=${1}`
+      : `obs_for_inforec?column=${subcat};search=${selection};geotype=${geo};geoid=${geoid};page=${1}`
     API.fetch(tableURL)
       .then(data => dispatch({ 
         type: 'OBS_TABLE', 
@@ -17,6 +17,7 @@ const changeObs = (selection, subcat, kingdom, geo, geoid) => {
           table: data,
           county: data[0] ? data[0].name : '',
           state: data[0] ? data[0].state : '',
+          page: 1,
         } 
       }))
   }
@@ -34,6 +35,8 @@ const changeTable = (selection, subcat, geo, geoid, page=1, ordered='date') => {
         type: 'OBS_TABLE', 
         payload: {
           table: data,
+          obsCount: data.length,
+          page: page,
           county: data[0] ? data[0].name : '',
           state: data[0] ? data[0].state : '',
         } 

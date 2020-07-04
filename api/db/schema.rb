@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 2020_07_03_182533) do
     t.index ["county_id"], name: "index_observations_on_county_id"
     t.index ["date"], name: "index_observations_on_date"
     t.index ["geom"], name: "index_observations_on_geom", using: :gist
-    t.index ["gid"], name: "index_observations_on_gid"
+    t.index ["gid"], name: "index_observations_on_gid", unique: true
     t.index ["organism_id"], name: "index_observations_on_organism_id"
   end
 
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 2020_07_03_182533) do
     t.index ["order"], name: "index_organisms_on_order"
     t.index ["phylum"], name: "index_organisms_on_phylum"
     t.index ["species"], name: "index_organisms_on_species"
-    t.index ["tid"], name: "index_organisms_on_tid"
+    t.index ["tid"], name: "index_organisms_on_tid", unique: true
   end
 
   create_table "states", force: :cascade do |t|

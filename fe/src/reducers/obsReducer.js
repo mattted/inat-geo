@@ -4,8 +4,9 @@ const obsReducer = (state = {
   selection: '',
   county: '',
   state: '',
-  data: {},
-  table: {},
+  page: 1,
+  data: [],
+  table: [],
   colorscale: '',
   loading: false,
 } , action) => {
@@ -28,13 +29,13 @@ const obsReducer = (state = {
         loading: false
       }
     case 'OBS_TABLE':
-      console.log('Table fetch reducer')
       return {
         ...state,
         loading: false,
         table: action.payload.table,
         state: action.payload.state,
         county: action.payload.county,
+        page: action.payload.page,
       }
     default:
       return state

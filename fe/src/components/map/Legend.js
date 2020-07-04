@@ -8,7 +8,8 @@ import * as d3legend from 'd3-svg-legend'
 class Legend extends Component {
   constructor(props){
     super(props)
-    this.width = window.innerWidth * 0.9
+    // this.width = window.innerWidth * 0.9
+    this.width = 500;
     this.height = '60px'
     this.translate = `translate(${this.width / 2}, 30)`
     this.drawScale()
@@ -36,7 +37,7 @@ class Legend extends Component {
 
     this.legendGroup = this.legendSvg.append('g')
       .attr("class", "legendGroup")
-      .attr("transform", `translate(${this.width/2.4}, 30)`)
+      .attr("transform", `translate(${this.width/2}, 30)`)
 
     this.legendGroupCells = this.legendGroup.append('g')
       .attr('class', 'legendCells')
@@ -84,7 +85,7 @@ class Legend extends Component {
     return (
       <Container>
         <Row className='justify-content-center'>
-          <svg width={window.innerWidth * 0.9} height='60px' ref={el => (this.legendRef = el)} />
+          <svg width={this.width} height='60px' ref={el => (this.legendRef = el)} />
         </Row>
       </Container> 
     )
