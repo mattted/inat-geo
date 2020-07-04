@@ -15,4 +15,15 @@ const changeObs = (selection, subcat, kingdom, geo, geoid) => {
   }
 } 
 
-export {changeObs}
+const changeTable = (selection, subcat, geo, geoid) => {
+  return dispatch => {
+    dispatch({type: 'LOADING_OBS'})
+
+    const tableURL = geoid === ''
+      ? `obs_for_inforec?column=${subcat};search=${selection}`
+      : `obs_for_inforec?column=${subcat};search=${selection};geotype=${geo};geoid=${geoid}`
+    API.fetch(tableURL)
+      .then(data => dispatch({ type: 'OBS_TABLE', payload: {table: data} }))
+  }
+} 
+export {changeObs, changeTable}

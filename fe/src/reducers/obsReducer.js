@@ -29,6 +29,7 @@ const obsReducer = (state = {
       console.log('Table fetch reducer')
       return {
         ...state,
+        loading: false,
         table: action.payload.table,
       }
     default:

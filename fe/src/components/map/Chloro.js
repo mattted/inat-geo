@@ -5,12 +5,11 @@ import Row from 'react-bootstrap/Row'
 import * as d3 from 'd3'
 
 import {selectGeo} from '../../actions/geoActions'
+import {changeTable} from '../../actions/obsActions'
 
 class Chloro extends Component {
   constructor(props) {
     super(props)
-
-
     this.width = props.width || window.innerWidth * 0.9
     this.margin = props.margin || {
       top: 10,
@@ -57,6 +56,7 @@ class Chloro extends Component {
           this.reset(this.zoom, this.height, this.width)
         } else {
           this.props.selectGeo(d.id)
+          this.props.changeTable(this.props.selection, this.props.subcat, this.props.type, this.props.geoid)
           this.clicked(d, this.pathGenerator, this.zoom, this.width, this.height)
         }
       })
@@ -159,13 +159,15 @@ class Chloro extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     selectGeo: (geoid) => dispatch(selectGeo(geoid)),
+    changeTable: (selection, subcat, geo, geoid) => dispatch(changeTable(selection, subcat, geo, geoid)),
   }
 }
 
 function mapStateToProps(state) {
   return {
     ...state.geo,
-    ...state.obs
+    ...state.obs,
+    subcat: state.filter.subcat,
   }
 }
 
