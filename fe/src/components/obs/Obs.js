@@ -25,13 +25,24 @@ class Obs extends Component {
 
   renderPagination = (totalPages) => {
     if (totalPages <= 10) {
-      return [...Array(totalPages + 1).keys()].slice(1).map(num => <Pagination.Item key={num} active={num === this.props.page}>{num}</Pagination.Item>)
+      return [...Array(totalPages + 1).keys()].slice(1).map(num => (
+        <Pagination.Item 
+          key={num}
+          active={num === this.props.page}
+          onClick={() => {
+            this.props.changeTable(this.props.selection, this.props.subcat, this.props.geoType, this.props.geoid, num)
+          }}
+        >
+          {num}
+        </Pagination.Item>))
     } else {
       return [...Array(11).keys()].slice(1).map(num => (
         <Pagination.Item
           key={num}
           active={num === this.props.page}
-          onClick={() => this.props.changeTable(this.props.selection, this.props.subcat, this.props.geoType, this.props.geoid, num)}
+          onClick={() => {
+            this.props.changeTable(this.props.selection, this.props.subcat, this.props.geoType, this.props.geoid, num)
+          }}
         >
           {num}
         </Pagination.Item>)

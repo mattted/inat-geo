@@ -43,7 +43,13 @@ class Chloro extends Component {
       .on('zoom', this.zoomed)
 
     d3.select(this.mapRef)
-      .on('click', () => this.reset(this.zoom, this.height, this.width))
+      .on('click', () => {
+        this.reset(this.zoom, this.height, this.width)
+        setTimeout(() => {
+          this.props.selectGeo('')
+          this.props.changeTable(this.props.selection, this.props.subcat, this.props.type, '')
+        }, 750)
+      })
     
     d3.select(this.gRef)
       .selectAll('path')
