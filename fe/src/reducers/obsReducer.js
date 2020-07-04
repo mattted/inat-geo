@@ -2,6 +2,8 @@ import * as d3 from 'd3'
 
 const obsReducer = (state = {
   selection: '',
+  county: '',
+  state: '',
   data: {},
   table: {},
   colorscale: '',
@@ -31,6 +33,8 @@ const obsReducer = (state = {
         ...state,
         loading: false,
         table: action.payload.table,
+        state: action.payload.state,
+        county: action.payload.county,
       }
     default:
       return state

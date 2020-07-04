@@ -54,10 +54,16 @@ class Chloro extends Component {
       .on('click', d => {
         if (this.props.geoid === d.id) {
           this.reset(this.zoom, this.height, this.width)
+          setTimeout(() => {
+            this.props.selectGeo('')
+            this.props.changeTable(this.props.selection, this.props.subcat, this.props.type, '')
+          }, 750)
         } else {
-          this.props.selectGeo(d.id)
-          this.props.changeTable(this.props.selection, this.props.subcat, this.props.type, this.props.geoid)
           this.clicked(d, this.pathGenerator, this.zoom, this.width, this.height)
+          setTimeout(() => {
+            this.props.selectGeo(d.id)
+            this.props.changeTable(this.props.selection, this.props.subcat, this.props.type, this.props.geoid)
+          }, 750)
         }
       })
       .transition()

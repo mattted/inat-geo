@@ -18,9 +18,9 @@ class ObservationsController < ApplicationController
 
   def obs_for_inforec
     if params.keys.include?("geoid")
-      render json: Observation.obs_for_inforec_by_geom(params["column"], params["search"], params["geotype"], params["geoid"])
+      render json: Observation.obs_for_inforec_by_geom(params["column"], params["search"], params["geotype"], params["geoid"], params["page"], params["ordered"])
     else
-      render json: Observation.obs_for_inforec(params["column"], params["search"])
+      render json: Observation.obs_for_inforec(params["column"], params["search"], params["page"], params["ordered"])
     end
   end
 

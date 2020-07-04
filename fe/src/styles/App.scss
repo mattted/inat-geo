@@ -39,6 +39,16 @@
   }
 }
 
-.card-deck {
-  color: $nordRed;
+.card-columns {
+  column-count: 5;
+}
+
+.card-footer {
+  padding-top: 4px;
+  padding-bottom: 7px;
+  p {
+    text-align: center;
+    color: $nordBlue;
+    margin: 0px;
+  }
 }

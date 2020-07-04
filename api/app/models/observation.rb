@@ -53,14 +53,15 @@ class Observation < ApplicationRecord
     # end
   end
 
-  def self.obs_for_inforec(column, searchable)
+  def self.obs_for_inforec(column, searchable, page_num, ordered)
     selection = 'observations.date, counties.name, states.name as state, organisms.*, observations.url, observations.img'
     Observation.joins(:organism).joins(county: :state).select(selection)
       .where("organisms.#{column} = '#{searchable}' and observations.date is not null")
-      .order(date: :desc).page(1).per(20)
+      .order(date: :desc).page(page_num).per(20)
+      # .order(date: :desc).page(page_num).per(20)
   end
 
-  def self.obs_for_inforec_by_geom(column, searchable, geotype, geoid)
+  def self.obs_for_inforec_by_geom(column, searchable, geotype, geoid, page_num, ordered)
     if geotype == "state"
       sql_where = "organisms.#{column} = '#{searchable}' and observations.date is not null and states.id = '#{geoid}'"
     else
@@ -69,6 +70,6 @@ class Observation < ApplicationRecord
     selection = 'observations.date, counties.name, states.name as state, organisms.*, observations.url, observations.img'
     Observation.joins(:organism).joins(county: :state).select(selection)
       .where(sql_where)
-      .order(date: :desc).page(1).per(20)
+      .order(date: :desc).page(page_num).per(20)
   end
 end
