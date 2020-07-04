@@ -71,3 +71,15 @@
   ```psql
   alter table inat_obs rename to biodiv
   ```
+
+# PSQL to copy inat_images to observations
+  ```psql
+  update observations a
+  set img = b.array_agg
+  from 
+    (select c.gid, array_agg(d.imgi) 
+    from observations c 
+    inner join inat_images d 
+    on c.gid = d.gid)
+  as b 
+  where a.gid = b.gid;
