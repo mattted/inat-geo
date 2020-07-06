@@ -55,15 +55,15 @@ class Obs extends Component {
       <Container>
         <Row className='justify-content-center mt-3'>
           <Pagination size='sm'>
-            {this.renderPagination(this.totalPages())}
+            {this.props.table.length > 0 ? this.renderPagination(this.totalPages()) : ''}
           </Pagination>
         </Row>
         <Row className='justify-content-center mx-2'>
           <CardColumns className='mt-1'>
-            {/* {this.props.table[0] ? this.props.table.slice(0, 6).map(obs => <InfoCard county={obs.county} state={obs.state} data={obs.date} img={obs.img} /> ) : ''} */}
-            {this.props.table[0] ? this.props.table.map(obs =>
+            {this.props.table[0] ? this.props.table.map((obs, idx) =>
               <InfoCard
                 key={obs.gid}
+                cti={idx}
                 county={obs.name}
                 state={obs.state}
                 date={obs.date}
@@ -76,12 +76,12 @@ class Obs extends Component {
                 genus={obs.genus}
                 species={obs.species}
                 common={obs.common}
-              /> ) : ''}
+              />) : ''}
           </CardColumns>
         </Row>
         <Row className='justify-content-center'>
           <Pagination size='sm'>
-            {this.renderPagination(this.totalPages())}
+            {this.props.table.length > 0 ? this.renderPagination(this.totalPages()) : ''}
           </Pagination>
         </Row>
       </Container>

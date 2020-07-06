@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
+import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {changeGeo} from '../actions/geoActions'
 import {populateDatalist} from '../actions/filterActions'
-// import {partitionData} from '../actions/partitionActions'
+import About from '../components/layout/About'
+import ObsCard from '../components/obs/ObsCard'
 
 import Header from '../components/layout/Header'
 import MapContainer from './MapContainer'
@@ -17,11 +19,18 @@ class App extends Component {
   
   render() {
     return (
-      <>
-        <Header />
-        <MapContainer />
-        <Obs />
-      </>
+      <Router>
+        <>
+          <Header />
+          <Route exact path="/" render={() =>
+              (<>
+                <MapContainer />
+                <Obs />
+              </>)}/>
+          <Route path="/about" component={About} />
+          <Route path="/observation/:id" component={ObsCard} />
+        </>
+      </Router>
     )
   }
 }

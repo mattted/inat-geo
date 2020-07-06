@@ -56,6 +56,7 @@ class Chloro extends Component {
       .data(this.props.shp.features)
       .attr('class', 'boundaries')
       .on('mouseover', d => this.highlight(d, this.tipRef, this.props.data))
+      .on('mouseover', d => setTimeout(this.showTip(d, this.tipRef, this.props.data), 1000))
       .on('mouseout', d => this.unhighlight(d, this.tipRef))
       .on('click', d => {
         if (this.props.geoid === d.id) {
@@ -72,9 +73,9 @@ class Chloro extends Component {
           }, 750)
         }
       })
+      .attr('d', d => this.pathGenerator(d))
       .transition()
       .duration(1000)
-      .attr('d', d => this.pathGenerator(d))
       .attr('fill', d => this.assignFill(d))
 
     d3.select(this.mapRef).call(this.zoom)
@@ -85,7 +86,9 @@ class Chloro extends Component {
     d3.select(d3.event.target)
       .style('stroke', '#4c566a')
       .style('stroke-width', '1px')
+  }
 
+  showTip(d, tipRef, data) {
     // add tooltip
     d3.select(tipRef)
       .transition().duration(200)
@@ -112,7 +115,7 @@ class Chloro extends Component {
   assignFill = (d) => {
     return this.props.data[d.id] 
       ? this.props.colorscale(this.props.data[d.id])
-      : "#ECEFF4"
+      : "#f7f8fa"
   }
 
   zoomed = () => {

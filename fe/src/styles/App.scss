@@ -52,3 +52,29 @@
     margin: 0px;
   }
 }
+
+.carousel-item {
+  max-height: 400px;
+  img {
+    max-height: 400px;
+    height: auto;
+    width: auto;
+  }
+}
+
+.badge {
+  a {
+    text-decoration: none;
+  }
+}
+
+.info-item {
+  margin: 0px;
+  padding: 0px;
+  font-size: 0.7rem;
+  line-height: 0.9rem;
+}
+
+.obs-card-text p {
+  margin: 4px;
+}
