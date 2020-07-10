@@ -143,7 +143,7 @@ class Partition extends Component {
   render(){
     return (
       <Container fluid>
-        <Row className='justify-content-center mb-4'>
+        <Row className='justify-content-center my-4'>
           <svg width={this.width} height={this.height} ref={el => (this.partitionRef = el)} />
         </Row>
       </Container>

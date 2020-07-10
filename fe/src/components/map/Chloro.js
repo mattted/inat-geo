@@ -45,31 +45,20 @@ class Chloro extends Component {
     d3.select(this.mapRef)
       .on('click', () => {
         this.reset(this.zoom, this.height, this.width)
-        setTimeout(() => {
-          this.props.selectGeo('', '')
-          this.props.changeTable(this.props.selection, this.props.subcat, this.props.type, '')
-        }, 750)
+        this.props.selectGeo('', '')
       })
     
-    d3.select(this.gRef)
-      .selectAll('path')
-      .data(this.props.shp.features)
+    const path = d3.select(this.gRef).selectAll('path')
+
+    path.data(this.props.shp.features)
       .attr('class', 'boundaries')
-      .on('mouseover', d => this.showTip(d, this.tipRef, this.props.data))
-      .on('mouseout', d => this.unhighlight(d, this.tipRef))
       .on('click', d => {
         if (this.props.geoid === d.id) {
           this.reset(this.zoom, this.height, this.width)
-          setTimeout(() => {
-            this.props.selectGeo('', '')
-            this.props.changeTable(this.props.selection, this.props.subcat, this.props.type, '')
-          }, 750)
+          this.props.selectGeo('', '')
         } else {
           this.clicked(d, this.pathGenerator, this.zoom, this.width, this.height)
-          setTimeout(() => {
-            this.props.selectGeo(d.id, d.properties.name)
-            this.props.changeTable(this.props.selection, this.props.subcat, this.props.type, this.props.geoid)
-          }, 750)
+          this.props.selectGeo(d.id, d.properties.name)
         }
       })
       .attr('d', d => this.pathGenerator(d))
@@ -77,31 +66,10 @@ class Chloro extends Component {
       .duration(1000)
       .attr('fill', d => this.assignFill(d))
 
+    path.select('title')
+      .text(d => `${d.properties.name}\n${this.props.data[d.id] ? d3.format(',')(this.props.data[d.id]) : 'N/A'}`)
+
     d3.select(this.mapRef).call(this.zoom)
-  }
-
-  showTip(d, tipRef, data) {
-    // add tooltip
-    d3.select(tipRef)
-      .transition().duration(200)
-      .style('opacity', 1)
-      .style('left', `${d3.event.pageX + 30}px`)
-      .style('top', `${d3.event.pageY - 30}px`)
-      .select('.geoname')
-      .text(`${d.properties.name} County`)
-    d3.select(tipRef)
-      .select('.obscount')
-      .text(`${data[d.id] ? data[d.id] : 'N/A'}`)
-  }
-
-  unhighlight(d, tipRef) {
-    d3.select(d3.event.target)
-      .style('stroke-width', '0.1px')
-      .style('stroke', '#3b4252')
-
-    d3.select(tipRef)
-      .transition().duration(200)
-      .style('opacity', 0)
   }
 
   assignFill = (d) => {
@@ -144,19 +112,15 @@ class Chloro extends Component {
   }
 
   render() {
-    const boundaries = this.props.shp.features.map((d, i) => <path key={d.id}/>)
+    const boundaries = this.props.shp.features.map((d, i) => <path key={d.id}><title></title></path>)
     return (
       <Container fluid>
         <Row className='justify-content-center my-3'>
-          <svg width={this.width} height={this.height} ref={el => (this.mapRef = el)}>
+          <svg className='chloro' width={this.width} height={this.height} ref={el => (this.mapRef = el)}>
             <g ref={el => (this.gRef = el)}>
               {boundaries}
             </g>
           </svg>
-          <div className='tooltip' style={{position: 'absolute', opacity: 0}} ref={el => (this.tipRef = el)}>
-            <p className='geoname'></p>
-            <p className='obscount'></p> 
-          </div>
         </Row>
       </Container>
     )

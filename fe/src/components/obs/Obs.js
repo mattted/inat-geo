@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import CardColumns from 'react-bootstrap/CardColumns'
 import Pagination from 'react-bootstrap/Pagination'
 import InfoCard from '../../components/layout/InfoCard'
@@ -18,8 +20,8 @@ class Obs extends Component {
       return 1
     } else {
       return this.props.geoid === '' 
-        ? Math.floor(Object.values(this.props.aggData).reduce((t,x) => t+x) / this.perPage)
-        : Math.floor(this.props.aggData[this.props.geoid] / this.perPage)
+        ? Math.ceil(Object.values(this.props.aggData).reduce((t,x) => t+x) / this.perPage)
+        : Math.ceil(this.props.aggData[this.props.geoid] / this.perPage)
     }
   }
 
@@ -54,13 +56,27 @@ class Obs extends Component {
     return (
       <Container>
         <Row className='justify-content-center mt-3'>
-          <Pagination size='sm'>
-            {this.props.table.length > 0 ? this.renderPagination(this.totalPages()) : ''}
-          </Pagination>
+          <Button
+            variant='info'
+            size='sm'
+            onClick={() => {
+              this.props.changeTable(this.props.selection, this.props.subcat, this.props.geoType, this.props.geoid)
+            }}
+          >
+            Show Observations
+          </Button>
+        </Row>
+        <Row className='justify-content-center mt-3'>
+          {this.props.table[0]
+            ? (<Pagination size='sm'>
+              {this.renderPagination(this.totalPages())}
+            </Pagination>)
+            : ''}
         </Row>
         <Row className='justify-content-center mx-2'>
           <CardColumns className='mt-1'>
             {this.props.table[0] ? this.props.table.map((obs, idx) =>
+              // TODO: destructure
               <InfoCard
                 key={obs.gid}
                 cti={idx}

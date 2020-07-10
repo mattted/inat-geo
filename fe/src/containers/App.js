@@ -25,14 +25,10 @@ class App extends Component {
       <Router>
         <>
           <Header />
-          <Route exact path="/" render={() =>
-              (<>
-                <MapContainer />
-                <Obs />
-              </>)}/>
+          <Route exact path="/" component={MapContainer} />
           <Route path="/about" component={About} />
           <Route path="/observation/:id" component={ObsCard} />
-          <Route path="/partition" component={PartitionContainer} />
+          <Route path="/taxonomy" component={PartitionContainer} />
         </>
       </Router>
     )
