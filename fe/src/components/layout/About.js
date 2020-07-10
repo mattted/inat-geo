@@ -17,7 +17,7 @@ const About = () => (
           <Card className="text-center mb-3">
             <Card.Header>iNaturalist</Card.Header>
             <Card.Body>
-              <img src={inat} height='40' className='mb-2' />
+              <img src={inat} alt='iNaturalist' height='40' className='mb-2' />
               <Card.Text>
                 iNaturalist is a website that allows users to record, share, and discuss organism observations with the intent of collecting and providing research quality observations for biodiversity research. All observation data collected by iNaturalist is shared with scientific data repositories, such as the Global Biodiversity Information Facility, that provide open access to the collected information.
               </Card.Text>
@@ -27,7 +27,7 @@ const About = () => (
           <Card className="text-center mb-3">
             <Card.Header>Global Biodiversity Information Facility</Card.Header>
             <Card.Body>
-              <img src={gbif} height='50' />
+              <img src={gbif} alt='Global Biodiversity Information Facility' height='50' />
               <Card.Text>
                 The Global Biodiversity Information Facility is a scientific data repository funded by the world's governments that provides open access to data about all types of life on earth. GBIF has established data standards that allow the integration of information from numerous sources and varying focus.
               </Card.Text>

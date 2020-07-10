@@ -43,13 +43,12 @@ class Partition extends Component {
     const arc = d3.arc()
       .startAngle(d => d.x0)
       .endAngle(d => d.x1)
-      .padAngle(d => Math.min((d.x1 -d.x0) / 2, 0.005))
+      .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
       .padRadius(this.radius * 1.5)
       .innerRadius(d => d.y0 * this.radius)
       .outerRadius(d => Math.max(d.y0 * this.radius, d.y1 * this.radius -1))
 
-
-    const svg = d3.select(this.partitionRef).attr('viewBox', [0, 0, this.width, this.width]).style('font', '9px sans-sefif')
+    const svg = d3.select(this.partitionRef).attr('viewBox', [0, 0, this.width, this.width]).style('font', '8px sans-serif')
     // nest flat tabular data by keys 
     const entries = d3.nest()
       // .key(d => d.phylum)
@@ -57,7 +56,7 @@ class Partition extends Component {
       .key(d => d.order)
       .key(d => d.family)
       .key(d => d.genus)
-      // .key(d => d.species)
+      .key(d => d.species)
       .entries(this.props.aggData)
     // convert to hierarchy format with nodes/data/children
     const nested = d3.hierarchy({values: entries}, d => d.values)
@@ -126,13 +125,15 @@ class Partition extends Component {
           const i = d3.interpolate(d.current, d.target)
           return t => d.current = i(t)
         })
-        .filter(function(d) {
-          return +this.getAttribute('fill-oapcity') || arcVisible(d.target);
+        .filter(function (d) {
+          return +this.getAttribute('fill-opacity') || arcVisible(d.target)
         })
         .attr('fill-opacity', d => arcVisible(d.target) ? (d.children ? 0.6 : 0.4) : 0)
         .attrTween('d', d => () => arc(d.current));
 
-      label.filter(d => +this.getAttribute('fill-opacity') || labelVisible(d.target))
+      label.filter(function(d) {
+         return +this.getAttribute('fill-opacity') || labelVisible(d.target)
+        })
         .transition(t)
         .attr('fill-opacity', d => +labelVisible(d.target))
         .attrTween('transform', d => () => labelTransform(d.current));

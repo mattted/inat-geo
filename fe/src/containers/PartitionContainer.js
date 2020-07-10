@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
-import Filter from '../components/map/Filter'
-import {partitionData} from '../actions/partitionActions'
+// import Filter from '../components/map/Filter'
+// import {partitionData} from '../actions/partitionActions'
 
 import Partition from '../components/partition/Partition'
 

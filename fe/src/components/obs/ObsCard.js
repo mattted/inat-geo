@@ -31,7 +31,7 @@ class ObsCard extends Component {
               // TODO: wrong aspect ratios and image transitions
               <Carousel.Item>
                 {/* <Image src={image} fluid/> */}
-                <img src={image} className='d-block mx-auto'/>
+                <img src={image} alt='' className='d-block mx-auto'/>
               </Carousel.Item>
                 )) : ''}
           </Carousel>

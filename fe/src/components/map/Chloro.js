@@ -46,7 +46,7 @@ class Chloro extends Component {
       .on('click', () => {
         this.reset(this.zoom, this.height, this.width)
         setTimeout(() => {
-          this.props.selectGeo('')
+          this.props.selectGeo('', '')
           this.props.changeTable(this.props.selection, this.props.subcat, this.props.type, '')
         }, 750)
       })
@@ -55,20 +55,19 @@ class Chloro extends Component {
       .selectAll('path')
       .data(this.props.shp.features)
       .attr('class', 'boundaries')
-      .on('mouseover', d => this.highlight(d, this.tipRef, this.props.data))
-      .on('mouseover', d => setTimeout(this.showTip(d, this.tipRef, this.props.data), 1000))
+      .on('mouseover', d => this.showTip(d, this.tipRef, this.props.data))
       .on('mouseout', d => this.unhighlight(d, this.tipRef))
       .on('click', d => {
         if (this.props.geoid === d.id) {
           this.reset(this.zoom, this.height, this.width)
           setTimeout(() => {
-            this.props.selectGeo('')
+            this.props.selectGeo('', '')
             this.props.changeTable(this.props.selection, this.props.subcat, this.props.type, '')
           }, 750)
         } else {
           this.clicked(d, this.pathGenerator, this.zoom, this.width, this.height)
           setTimeout(() => {
-            this.props.selectGeo(d.id)
+            this.props.selectGeo(d.id, d.properties.name)
             this.props.changeTable(this.props.selection, this.props.subcat, this.props.type, this.props.geoid)
           }, 750)
         }
@@ -79,13 +78,6 @@ class Chloro extends Component {
       .attr('fill', d => this.assignFill(d))
 
     d3.select(this.mapRef).call(this.zoom)
-  }
-
-  highlight(d, tipRef, data) {
-    // highlight boundary geometry
-    d3.select(d3.event.target)
-      .style('stroke', '#4c566a')
-      .style('stroke-width', '1px')
   }
 
   showTip(d, tipRef, data) {
@@ -148,7 +140,7 @@ class Chloro extends Component {
       d3.zoomIdentity,
       d3.zoomTransform(svg.node()).invert([w / 2, h / 2])
     )
-    selectGeo('')
+    selectGeo('', '')
   }
 
   render() {
@@ -173,7 +165,7 @@ class Chloro extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectGeo: (geoid) => dispatch(selectGeo(geoid)),
+    selectGeo: (geoid, geoName) => dispatch(selectGeo(geoid, geoName)),
     changeTable: (selection, subcat, geo, geoid) => dispatch(changeTable(selection, subcat, geo, geoid)),
   }
 }

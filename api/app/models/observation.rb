@@ -39,12 +39,12 @@ class Observation < ApplicationRecord
     # , b.order, b.family, b.genus, b.species;
     sql = <<-SQL
       select * from (
-      select b.phylum, b.klass, b.order, b.family, b.genus, count(b.genus)
+      select b.phylum, b.klass, b.order, b.family, b.genus, b.species, count(b.species)
       from observations a
       inner join organisms b
       on a.tid = b.tid
       where b.phylum = 'Chordata'
-      group by b.phylum, b.klass, b.order, b.family, b.genus) as agg where agg.count > 200;
+      group by b.phylum, b.klass, b.order, b.family, b.genus, b.species) as agg where agg.count > 200;
     SQL
       # select count(*) from (select b.phylum, b.klass, b.order, b.family, b.genus, b.species, count(b.species) from observations a inner join organisms b on a.tid = b.tid where b.kingdom = 'Animalia' group by b.phylum, b.klass, b.order, b.family, b.genus, b.species) as newt where newt.count > 100
 
