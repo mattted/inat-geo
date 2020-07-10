@@ -11,6 +11,7 @@ const partitionReducer = (state = {
     case 'ADDING_PARTITION':
       return {
         ...state,
+        loading: false,
         aggData: action.payload.data
       }
     default:

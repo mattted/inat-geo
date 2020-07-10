@@ -17,7 +17,6 @@ class App extends Component {
   componentDidMount() {
     this.props.changeGeo('counties')
     this.props.populateDatalist('Animalia', 'phylum')
-    this.props.partitionData()
   }
   
   render() {

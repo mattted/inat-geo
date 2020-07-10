@@ -57,7 +57,7 @@ class Obs extends Component {
       <Container>
         <Row className='justify-content-center mt-3'>
           <Button
-            variant='info'
+            variant='primary'
             size='sm'
             onClick={() => {
               this.props.changeTable(this.props.selection, this.props.subcat, this.props.geoType, this.props.geoid)

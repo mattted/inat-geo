@@ -12,7 +12,7 @@ import {populateDatalist} from '../../actions/filterActions'
 import {changeGeo} from '../../actions/geoActions'
 import {changeObs} from '../../actions/obsActions'
 
-class Filter extends Component {
+class MapFilter extends Component {
   constructor(props) {
     super(props)
     this.geoRadios = [
@@ -137,4 +137,4 @@ function mapStateToProps(state) {
   return {...state.filter, selection: state.obs.selection, geo: state.geo.type, geoid: state.geo.geoid}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filter)
+export default connect(mapStateToProps, mapDispatchToProps)(MapFilter)

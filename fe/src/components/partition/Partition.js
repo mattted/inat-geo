@@ -4,6 +4,8 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import * as d3 from 'd3'
 
+import {selectGeo} from '../../actions/geoActions'
+import {changeTable} from '../../actions/obsActions'
 import {partitionData} from '../../actions/partitionActions'
 
 class Partition extends Component {
@@ -14,11 +16,13 @@ class Partition extends Component {
   }
 
   componentDidMount() {
-    this.drawPartition()
+    this.props.selectGeo('', '')
+    this.props.aggData[0] && this.drawPartition()
   }
 
   componentDidUpdate() {
-    this.drawPartition()
+    this.props.selectGeo('', '')
+    this.props.aggData[0] && this.drawPartition()
   }
 
   partition = (root) => d3.partition().size([2 * Math.PI, root.height + 1])(root)
@@ -110,6 +114,7 @@ class Partition extends Component {
       .on('click', clicked)
 
     function clicked(p) {
+      console.log(p)
       parent.datum(p.parent || root)
       root.each(d => d.target = {
         x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
@@ -153,13 +158,15 @@ class Partition extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
+    selectGeo: (geoid, geoName) => dispatch(selectGeo(geoid, geoName)),
     partitionData: () => dispatch(partitionData()),
+    changeTable: (selection, subcat, geo, geoid) => dispatch(changeTable(selection, subcat, geo, geoid)),
   }
 }
 
 function mapStateToProps(state) {
   return {
-    aggData: state.partition.aggData
+    ...state.partition
   }
 }
 
