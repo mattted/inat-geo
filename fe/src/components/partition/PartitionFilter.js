@@ -22,16 +22,14 @@ class PartitionFilter extends Component {
       {name: 'Order', value: 'order'},
       {name: 'Family', value: 'family'},
       {name: 'Genus', value: 'genus'},
-      {name: 'Species', value: 'species'},
-      {name: 'Common Name', value: 'common'},
+      // {name: 'Species', value: 'species'},
+      // {name: 'Common Name', value: 'common'},
     ]
     this.kingdomRadios =  [
       {name: 'Animals', value: 'Animalia'},
       {name: 'Plants', value: 'Plantae'},
       {name: 'Fungi', value: 'Fungi'},
     ]
-    this.sqlSelect = ['b.phylum', 'b.klass', 'b.order', 'b.family', 'b.genus', 'b.species', 'count(b.species)']
-    this.sqlWhere = ['b.phylum', 'b.klass', 'b.order', 'b.family', 'b.genus', 'b.species']
   }
 
   render() {
