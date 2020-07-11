@@ -33,20 +33,20 @@ class Observation < ApplicationRecord
     end
   end
 
-  def self.county_partition(parent, child)
-    # sql = 'select b.kingdom, b.phylum, count(b.phylum) from observations a inner join organisms b on a.tid = b.tid group by b.kingdom, b.phylum'
-    # , b.order, b.family, b.genus, b.species, count(b.species)
-    # , b.order, b.family, b.genus, b.species;
+  def self.partition(sel, subcat, kingdom)
+    select_options = ['b.phylum', 'b.klass', 'b.order', 'b.family', 'b.genus', 'b.species', 'count(b.species)']
+    idx = select_options.find_index { |el| "b.#{subcat}" == el }
+
+
     sql = <<-SQL
       select * from (
-      select b.phylum, b.klass, b.order, b.family, b.genus, b.species, count(b.species)
+      select #{select_options[idx..-1].join(', ')}
       from observations a
       inner join organisms b
       on a.tid = b.tid
-      where b.phylum = 'Chordata'
-      group by b.phylum, b.klass, b.order, b.family, b.genus, b.species) as agg where agg.count > 200;
+      where b.#{subcat} = '#{sel}'
+      group by #{select_options[idx...-1].join(', ')}) as agg where agg.count > 0;
     SQL
-      # select count(*) from (select b.phylum, b.klass, b.order, b.family, b.genus, b.species, count(b.species) from observations a inner join organisms b on a.tid = b.tid where b.kingdom = 'Animalia' group by b.phylum, b.klass, b.order, b.family, b.genus, b.species) as newt where newt.count > 100
 
     # Rails.cache.fetch("partition_data_test", expires_in: 12.hours) do
       ActiveRecord::Base.connection.execute(sql)

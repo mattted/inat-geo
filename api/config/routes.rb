@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     get 'obs_for_inforec', to: 'observations#obs_for_inforec'
     get 'counties_obs_by_query', to: 'observations#counties_obs_by_query'
     get 'states_obs_by_query', to: 'observations#states_obs_by_query'
-    get 'counties_partition', to: 'observations#counties_partition'
+    get 'partition', to: 'observations#partition'
     get 'datalist', to: 'organisms#datalist'
   end
 end
