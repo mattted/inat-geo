@@ -20,11 +20,6 @@ class Partition extends Component {
     this.props.aggData[0] && this.drawPartition()
   }
 
-  componentDidUpdate() {
-    this.props.selectGeo('', '')
-    this.props.aggData[0] && this.drawPartition()
-  }
-
   partition = (root) => d3.partition().size([2 * Math.PI, root.height + 1])(root)
 
   format = d3.format(",d")
@@ -54,14 +49,45 @@ class Partition extends Component {
 
     const svg = d3.select(this.partitionRef).attr('viewBox', [0, 0, this.width, this.width]).style('font', '8px sans-serif')
     // nest flat tabular data by keys 
-    const entries = d3.nest()
-      // .key(d => d.phylum)
-      .key(d => d.klass)
-      .key(d => d.order)
-      .key(d => d.family)
-      .key(d => d.genus)
-      .key(d => d.species)
-      .entries(this.props.aggData)
+    let entries
+    switch(this.props.subcat) {
+      case 'phylum':
+        console.log(this.props.subcat)
+        entries = d3.nest()
+          .key(d => d.klass)
+          .key(d => d.order)
+          .key(d => d.family)
+          .key(d => d.genus)
+          .key(d => d.species)
+          .entries(this.props.aggData)
+        break
+      case 'klass':
+        entries = d3.nest()
+          .key(d => d.order)
+          .key(d => d.family)
+          .key(d => d.genus)
+          .key(d => d.species)
+          .entries(this.props.aggData)
+        break
+      case 'order':
+        entries = d3.nest()
+          .key(d => d.family)
+          .key(d => d.genus)
+          .key(d => d.species)
+          .entries(this.props.aggData)
+        break
+      case 'family':
+        entries = d3.nest()
+          .key(d => d.genus)
+          .key(d => d.species)
+          .entries(this.props.aggData)
+        break
+      case 'genus':
+        entries = d3.nest()
+          .key(d => d.species)
+          .entries(this.props.aggData)
+        break
+    }
     // convert to hierarchy format with nodes/data/children
     const nested = d3.hierarchy({values: entries}, d => d.values)
       .sum(data => data.count)
@@ -166,7 +192,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    ...state.partition
+    ...state.partition,
+    subcat: state.filter.subcat 
   }
 }
 

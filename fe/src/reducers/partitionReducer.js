@@ -1,5 +1,6 @@
 const partitionReducer = (state = {
   aggData: {},
+  treeHead: '',
   loading: false,
 } , action) => {
   switch(action.type) {

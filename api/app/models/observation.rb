@@ -48,7 +48,7 @@ class Observation < ApplicationRecord
       group by #{select_options[idx...-1].join(', ')}) as agg where agg.count > 0;
     SQL
 
-    # Rails.cache.fetch("partition_data_test", expires_in: 12.hours) do
+    # Rails.cache.fetch("partition_data_#{sel}", expires_in: 10.days) do
       ActiveRecord::Base.connection.execute(sql)
     # end
   end

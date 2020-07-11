@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {partitionData} from '../actions/partitionActions'
 
 import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
 
 import Partition from '../components/partition/Partition'
@@ -22,7 +23,14 @@ class PartitionContainer extends Component {
     return (
       <>
         <PartitionFilter />
-        {this.props.loading ? <Row className='justify-content-center m-4'><Spinner animation='border' variant='danger' /></Row> : <Partition />}
+        {this.props.loading 
+          ? <Row className='justify-content-center m-4'>
+              <Col className='text-center mx-auto' >
+                <Spinner animation='border' variant='danger' />
+                <p><small>Building Tree</small></p>
+              </Col>
+            </Row> 
+          : <Partition />}
         <Obs />    
       </>
     )
