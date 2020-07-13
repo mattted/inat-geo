@@ -84,7 +84,7 @@ class PartitionFilter extends Component {
               // TODO: fix changeObs arguments
               onChange={
                 sel => {
-                  this.props.partitionData(sel.value, this.props.subcat, this.props.kingdom)
+                  this.props.partitionData(sel.value, this.props.subcat, this.props.kingdom, this.props.subcat)
                   this.props.changeObs(sel.value, this.props.subcat, this.props.kingdom, this.props.geo, this.props.geoid)
                 }
               }
@@ -102,7 +102,7 @@ function mapDispatchToProps(dispatch){
     populateDatalist: (kingdom, subcat) => dispatch(populateDatalist(kingdom, subcat)),
     changeGeo: (selected) => dispatch(changeGeo(selected)),
     changeObs: (selected, subcat, kingdom, geo, geoid) => dispatch(changeObs(selected, subcat, kingdom, geo, geoid)),
-    partitionData: (sel, subcat, kingdom) => dispatch(partitionData(sel, subcat, kingdom)),
+    partitionData: (sel, subcat, kingdom, treeCat) => dispatch(partitionData(sel, subcat, kingdom, treeCat)),
   } 
 }
 

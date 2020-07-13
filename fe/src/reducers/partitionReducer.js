@@ -1,6 +1,7 @@
 const partitionReducer = (state = {
   aggData: {},
   treeHead: '',
+  treeCat: '',
   loading: false,
 } , action) => {
   switch(action.type) {
@@ -14,7 +15,8 @@ const partitionReducer = (state = {
         ...state,
         loading: false,
         aggData: action.payload.data,
-        treeHead: action.payload.treeHead
+        treeHead: action.payload.treeHead,
+        treeCat: action.payload.treeCat
       }
     default:
       return state

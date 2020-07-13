@@ -49,9 +49,9 @@ class Partition extends Component {
     const svg = d3.select(this.partitionRef).attr('viewBox', [0, 0, this.width, this.width]).style('font', '8px sans-serif')
     // nest flat tabular data by keys 
     let entries
-    switch(this.props.subcat) {
+    switch(this.props.treeCat) {
       case 'phylum':
-        console.log(this.props.subcat)
+        console.log(this.props.treeCat)
         entries = d3.nest()
           .key(d => d.klass)
           .key(d => d.order)
@@ -139,7 +139,6 @@ class Partition extends Component {
       .on('click', clicked)
 
     function clicked(p) {
-      console.log(p)
       parent.datum(p.parent || root)
       root.each(d => d.target = {
         x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
