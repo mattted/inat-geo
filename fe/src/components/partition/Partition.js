@@ -6,7 +6,6 @@ import * as d3 from 'd3'
 
 import {selectGeo} from '../../actions/geoActions'
 import {changeTable} from '../../actions/obsActions'
-import {partitionData} from '../../actions/partitionActions'
 
 class Partition extends Component {
   constructor(props){
@@ -185,7 +184,6 @@ class Partition extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     selectGeo: (geoid, geoName) => dispatch(selectGeo(geoid, geoName)),
-    partitionData: () => dispatch(partitionData()),
     changeTable: (selection, subcat, geo, geoid) => dispatch(changeTable(selection, subcat, geo, geoid)),
   }
 }

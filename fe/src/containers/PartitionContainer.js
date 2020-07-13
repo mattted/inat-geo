@@ -16,7 +16,21 @@ class PartitionContainer extends Component {
   }
 
   componentDidMount() {
-    !this.props.aggData[0] && this.props.partitionData()
+    this.getData()
+  }
+
+  componentDidUpdate() {
+    this.getData()
+  }
+
+  getData = () => {
+    if (!this.props.aggData[0] && this.props.selection && (this.props.selection !== this.props.treeHead)) {
+      if (this.props.subcat === 'common' || this.props.subcat === 'species') {
+        this.props.partitionData(this.props.table[0].genus, 'genus', this.props.kingdom)
+      } else {
+        this.props.partitionData(this.props.selection, this.props.subcat, this.props.kingdom)
+      }
+    }
   }
   
   render() {
@@ -38,12 +52,16 @@ class PartitionContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state.partition
+  ...state.partition,
+  selection: state.obs.selection,
+  subcat: state.filter.subcat,
+  kingdom: state.filter.kingdom,
+  table: state.obs.table,
 })
 
 const mapDispatchToProps = dispatch => {
   return {
-    partitionData: () => dispatch(partitionData()),
+    partitionData: (sel, subcat, kingdom) => dispatch(partitionData(sel, subcat, kingdom)),
   }
 }
 

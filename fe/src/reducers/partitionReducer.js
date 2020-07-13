@@ -13,7 +13,8 @@ const partitionReducer = (state = {
       return {
         ...state,
         loading: false,
-        aggData: action.payload.data
+        aggData: action.payload.data,
+        treeHead: action.payload.treeHead
       }
     default:
       return state
