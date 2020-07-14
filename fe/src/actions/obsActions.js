@@ -34,7 +34,6 @@ const changeSel = selection => {
 const changeTable = (selection, subcat, geo, geoid, page=1, ordered='date') => {
   return dispatch => {
     dispatch({type: 'LOADING_OBS'})
-
     const tableURL = geoid === ''
       ? `obs_for_inforec?column=${subcat};search=${selection};page=${page};ordered=${ordered}`
       : `obs_for_inforec?column=${subcat};search=${selection};geotype=${geo};geoid=${geoid};page=${page};ordered=${ordered}`

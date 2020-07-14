@@ -22,14 +22,17 @@ class Observation < ApplicationRecord
     kingdom = params["kingdom"]
     subcat = params["subcat"]
     selected = params["selection"]
-    # Rails.cache.fetch("org_per_county_#{column}_#{searchable}", expires_in: 12.hours) do
-    Observation.joins(:organism).where("organisms.#{subcat} = '#{selected}' and organisms.kingdom = '#{kingdom}'").group("county_id").count
-    # end
+    Rails.cache.fetch("org_per_county_#{kingdom}_#{subcat}_#{selected}", expires_in: 12.hours) do
+      Observation.joins(:organism).where("organisms.#{subcat} = '#{selected}' and organisms.kingdom = '#{kingdom}'").group("county_id").count
+    end
   end
 
-  def self.states_obs_by_query(column, searchable)
-    Rails.cache.fetch("org_per_state_#{column}_#{searchable}", expires_in: 12.hours) do
-      Observation.joins(:organism).joins(county: :state).where("organisms.#{column} = '#{searchable}'").group("states.id").count
+  def self.states_obs_by_query(params)
+    kingdom = params["kingdom"]
+    subcat = params["subcat"]
+    selected = params["selection"]
+    Rails.cache.fetch("org_per_state_#{kingdom}_#{subcat}_#{selected}", expires_in: 12.hours) do
+      Observation.joins(:organism).joins(county: :state).where("organisms.#{subcat} = '#{selected}' and organisms.kingdom = '#{kingdom}'").group("states.id").count
     end
   end
 
@@ -48,7 +51,7 @@ class Observation < ApplicationRecord
       group by #{select_options[idx...-1].join(', ')}) as agg where agg.count > 0;
     SQL
 
-    # Rails.cache.fetch("partition_data_#{sel}", expires_in: 10.days) do
+    # Rails.cache.fetch("partition_data_#{sel}_#{subcat}_#{kingdom}", expires_in: 10.days) do
       ActiveRecord::Base.connection.execute(sql)
     # end
   end
@@ -62,7 +65,7 @@ class Observation < ApplicationRecord
   end
 
   def self.obs_for_inforec_by_geom(column, searchable, geotype, geoid, page_num, ordered)
-    if geotype == "state"
+    if geotype == "states"
       sql_where = "organisms.#{column} = '#{searchable}' and observations.date is not null and states.id = '#{geoid}'"
     else
       sql_where = "organisms.#{column} = '#{searchable}' and observations.date is not null and counties.id = '#{geoid}'"

@@ -37,13 +37,12 @@ class MapFilter extends Component {
   }
 
   handleGeoChange = (e) => {
+    this.props.changeGeo(e.target.value) 
     if(this.props.selection !== '') {
-      // TODO: need to fix changeObs args
-      this.props.changeObs(this.props.selection, this.props.subcat, this.props.kingdom, e.target.value)
+      this.props.changeObs(this.props.selection, this.props.subcat, this.props.kingdom, e.target.value, '')
     } else {
       console.log('no change') 
     }
-    this.props.changeGeo(e.target.value) 
   }
 
   render() {

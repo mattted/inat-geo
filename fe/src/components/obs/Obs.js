@@ -13,6 +13,16 @@ class Obs extends Component {
   constructor(props) {
     super(props)
     this.perPage = 20
+    this.subcatProper = {
+      kingdom: 'Kingdom',
+      phylum: 'Phylum',
+      klass: 'Class',
+      order: 'Order',
+      family: 'Family',
+      genus: 'Genus',
+      species: 'Species',
+      common: 'Common Name',
+    }
   }
 
   totalPages = () => {
@@ -67,6 +77,18 @@ class Obs extends Component {
           </Button>
         </Row>
         <Row className='justify-content-center mt-3'>
+          <p><small>Geographic Focus: {
+            this.props.geoid
+              ? this.props.shp.features.find(feature => feature.id === this.props.geoid).properties.name
+              : 'United States'
+          }</small></p>
+          <p><small>Taxonomic Focus: {
+            this.props.subcat
+              ? this.subcatProper[this.props.subcat]
+              : 'N/A'
+          }</small></p>
+        </Row>
+        <Row className='justify-content-center mt-3'>
           {this.props.table[0]
             ? (<Pagination size='sm'>
               {this.renderPagination(this.totalPages())}
@@ -119,6 +141,7 @@ function mapStateToProps(state) {
     state: state.obs.state,
     aggData: state.obs.data,
     geoid: state.geo.geoid,
+    shp: state.geo.shp,
     page: state.obs.page,
     geoType: state.geo.type,
     subcat: state.filter.subcat,

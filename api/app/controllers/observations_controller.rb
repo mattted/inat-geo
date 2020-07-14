@@ -13,7 +13,7 @@ class ObservationsController < ApplicationController
   end
 
   def states_obs_by_query
-    render json: Observation.states_obs_by_query(params["column"], params["search"])
+    render json: Observation.states_obs_by_query(params)
   end
 
   def obs_for_inforec
