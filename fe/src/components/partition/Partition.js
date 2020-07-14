@@ -6,12 +6,15 @@ import * as d3 from 'd3'
 
 import {selectGeo} from '../../actions/geoActions'
 import {changeTable} from '../../actions/obsActions'
+import {changeSel} from '../../actions/obsActions'
+import {changeSubcat} from '../../actions/filterActions'
 
 class Partition extends Component {
   constructor(props){
     super(props)
     this.width = 600 
     this.radius = this.width / 6
+    this.depthIndex = ['kingdom', 'phylum', 'klass', 'order', 'family', 'genus']
   }
 
   componentDidMount() {
@@ -22,6 +25,18 @@ class Partition extends Component {
   partition = (root) => d3.partition().size([2 * Math.PI, root.height + 1])(root)
 
   format = d3.format(",d")
+
+  setLevel = e => {
+    const currentDepth = e.depth
+    const currentNode = e.data.key || this.props.treeHead
+    const treeHeadIndex = this.depthIndex.findIndex(el => el === this.props.treeCat) 
+
+    const currentTreeSubcat = this.depthIndex[treeHeadIndex + currentDepth]
+    
+    this.props.changeSubcat(currentTreeSubcat)
+    this.props.changeSel(currentNode)
+  }
+  
 
   drawPartition = () => {
     function arcVisible(d) {
@@ -51,7 +66,6 @@ class Partition extends Component {
     let entries
     switch(this.props.treeCat) {
       case 'phylum':
-        console.log(this.props.treeCat)
         entries = d3.nest()
           .key(d => d.klass)
           .key(d => d.order)
@@ -114,7 +128,10 @@ class Partition extends Component {
 
     path.filter(d => d.children)
       .style('cursor', 'pointer')
-      .on('click', clicked)
+      .on('click', e => {
+        clicked(e)
+        this.setLevel(e)
+      })
 
     path.append('title')
       .text(d => `${d.ancestors().map(d => d.data.key).reverse().join("/")}\n${this.format(d.value)}`)
@@ -136,9 +153,13 @@ class Partition extends Component {
       .attr('r', this.radius)
       .attr('fill', 'none')
       .attr('pointer-events', 'all')
-      .on('click', clicked)
+      .on('click', e => {
+        clicked(e)
+        this.setLevel(e)
+      })
 
     function clicked(p) {
+
       parent.datum(p.parent || root)
       root.each(d => d.target = {
         x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
@@ -146,7 +167,7 @@ class Partition extends Component {
         y0: Math.max(0, d.y0 - p.depth),
         y1: Math.max(0, d.y1 - p.depth)
       });
-
+      
       const t = g.transition().duration(500)
 
       path.transition(t)
@@ -184,13 +205,18 @@ function mapDispatchToProps(dispatch) {
   return {
     selectGeo: (geoid, geoName) => dispatch(selectGeo(geoid, geoName)),
     changeTable: (selection, subcat, geo, geoid) => dispatch(changeTable(selection, subcat, geo, geoid)),
+    changeSel: sel => dispatch(changeSel(sel)),
+    changeSubcat: subcat => dispatch(changeSubcat(subcat)),
   }
 }
 
 function mapStateToProps(state) {
   return {
     ...state.partition,
-    subcat: state.filter.subcat 
+    subcat: state.filter.subcat,
+    kingdom: state.filter.kingdom,
+    geo: state.geo.type,
+    geoid: state.geo.geoid,
   }
 }
 

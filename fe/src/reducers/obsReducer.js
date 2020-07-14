@@ -37,6 +37,11 @@ const obsReducer = (state = {
         county: action.payload.county,
         page: action.payload.page,
       }
+    case 'CHANGE_SELECTION':
+      return {
+        ...state,
+        selection: action.payload.selection
+      }
     default:
       return state
   }

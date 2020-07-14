@@ -23,6 +23,14 @@ const changeObs = (selection, subcat, kingdom, geo, geoid) => {
   }
 } 
 
+const changeSel = selection => {
+  return {
+    type: 'CHANGE_SELECTION',
+    payload: {selection}
+  }
+}
+
+
 const changeTable = (selection, subcat, geo, geoid, page=1, ordered='date') => {
   return dispatch => {
     dispatch({type: 'LOADING_OBS'})
@@ -43,4 +51,4 @@ const changeTable = (selection, subcat, geo, geoid, page=1, ordered='date') => {
       }))
   }
 } 
-export {changeObs, changeTable}
+export {changeObs, changeTable, changeSel}

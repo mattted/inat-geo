@@ -20,6 +20,11 @@ const filterReducer = (state = {
         loading: false,
         list: options,
       }
+    case 'CHANGE_SUBCAT':
+      return {
+        ...state,
+        subcat: action.payload.subcat,
+      }
     default:
       return state
   }

@@ -9,5 +9,12 @@ const populateDatalist = (kingdom, subcat) => {
   }
 } 
 
-export {populateDatalist}
+const changeSubcat = subcat => {
+  return {
+    type: "CHANGE_SUBCAT",
+    payload: {subcat}
+  } 
+}
+
+export {populateDatalist, changeSubcat}
 
