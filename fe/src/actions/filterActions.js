@@ -12,7 +12,7 @@ const populateDatalist = (kingdom, subcat) => {
 const changeSubcat = subcat => {
   return {
     type: "CHANGE_SUBCAT",
-    payload: {subcat}
+    payload: {subcat: subcat}
   } 
 }
 

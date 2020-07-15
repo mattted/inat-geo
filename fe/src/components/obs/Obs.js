@@ -88,7 +88,7 @@ class Obs extends Component {
               this.props.subcat
                 ? this.subcatProper[this.props.subcat]
                 : 'N/A'
-              }</small>
+              } {this.props.selection}</small>
             </p>
           </Col>
         </Row>

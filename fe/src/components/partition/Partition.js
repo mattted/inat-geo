@@ -8,6 +8,7 @@ import {selectGeo} from '../../actions/geoActions'
 import {changeTable} from '../../actions/obsActions'
 import {changeSel} from '../../actions/obsActions'
 import {changeSubcat} from '../../actions/filterActions'
+import {setNode} from '../../actions/partitionActions'
 
 class Partition extends Component {
   constructor(props){
@@ -32,9 +33,11 @@ class Partition extends Component {
     const treeHeadIndex = this.depthIndex.findIndex(el => el === this.props.treeCat) 
 
     const currentTreeSubcat = this.depthIndex[treeHeadIndex + currentDepth]
+    console.log(currentTreeSubcat)
     
     this.props.changeSubcat(currentTreeSubcat)
-    this.props.changeSel(currentNode)
+    this.props.setNode(currentNode, currentTreeSubcat)
+    // this.props.changeSel(currentNode)
   }
   
 
@@ -209,6 +212,7 @@ function mapDispatchToProps(dispatch) {
     changeTable: (selection, subcat, geo, geoid) => dispatch(changeTable(selection, subcat, geo, geoid)),
     changeSel: sel => dispatch(changeSel(sel)),
     changeSubcat: subcat => dispatch(changeSubcat(subcat)),
+    setNode: (node, cat) => dispatch(setNode(node, cat)),
   }
 }
 

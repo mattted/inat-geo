@@ -9,4 +9,14 @@ const partitionData = (sel, subcat, kingdom, treeCat) => {
   }
 } 
 
-export {partitionData}
+const setNode = (node, cat) => {
+  return { 
+    type: 'SET_NODE',
+    payload: {
+      treeNode: node,
+      treeCat: cat,
+    } 
+  }
+}
+
+export {partitionData, setNode}
