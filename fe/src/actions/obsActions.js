@@ -30,6 +30,14 @@ const changeSel = selection => {
   }
 }
 
+const getObs = id => {
+  return dispatch => {
+    dispatch({type: 'LOADING_OBS'})
+    API.fetch(`observations/${id}`)
+      .then(data => dispatch({type: 'GET_SINGLE', payload: {sobs: data[0]}} ))
+  }
+}
+
 
 const changeTable = (selection, subcat, geo, geoid, page=1, ordered='date') => {
   return dispatch => {
@@ -50,4 +58,4 @@ const changeTable = (selection, subcat, geo, geoid, page=1, ordered='date') => {
       }))
   }
 } 
-export {changeObs, changeTable, changeSel}
+export {changeObs, changeTable, changeSel, getObs}

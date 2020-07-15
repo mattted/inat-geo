@@ -7,6 +7,7 @@ const obsReducer = (state = {
   page: 1,
   data: [],
   table: [],
+  sobs: {},
   colorscale: '',
   loading: false,
 } , action) => {
@@ -36,6 +37,12 @@ const obsReducer = (state = {
         state: action.payload.state,
         county: action.payload.county,
         page: action.payload.page,
+      }
+    case 'GET_SINGLE':
+      return {
+        ...state,
+        loading: false,
+        sobs: action.payload.sobs
       }
     case 'CHANGE_SELECTION':
       return {

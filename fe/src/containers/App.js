@@ -11,6 +11,7 @@ import ObsCard from '../components/obs/ObsCard'
 import Header from '../components/layout/Header'
 import MapContainer from './MapContainer'
 import PartitionContainer from './PartitionContainer'
+import ObservationContainer from './ObservationContainer'
 import Obs from '../components/obs/Obs'
 
 class App extends Component {
@@ -26,7 +27,7 @@ class App extends Component {
           <Header />
           <Route exact path="/" component={MapContainer} />
           <Route path="/about" component={About} />
-          <Route path="/observation/:id" component={ObsCard} />
+          <Route path="/observation/:id" component={ObservationContainer} />
           <Route path="/taxonomy" component={PartitionContainer} />
         </>
       </Router>

@@ -54,12 +54,13 @@
 }
 
 .carousel-item {
-  max-height: 400px;
-  img {
-    max-height: 400px;
-    height: auto;
-    width: auto;
-  }
+  // max-height: 300px;
+  width: 100%;
+}
+
+.logo-fill {
+  width: 80px;  
+  display: block;
 }
 
 .badge {
@@ -68,13 +69,21 @@
   }
 }
 
+.card-list-group {
+  font-size: 0.7rem;
+}
+
+.badge-primary {
+  a {
+    text-decoration: none;
+    color: white;
+    font-weight: normal;
+  }
+}
+
 .info-item {
   margin: 0px;
   padding: 0px;
   font-size: 0.7rem;
   line-height: 0.9rem;
-}
-
-.obs-card-text p {
-  margin: 4px;
 }
