@@ -65,17 +65,18 @@ class Obs extends Component {
   render() {
     return (
       <Container>
-        <Row className='justify-content-center mt-3'>
-          <Button
-            variant='primary'
-            size='sm'
-            onClick={() => {
-              this.props.changeTable(this.props.selection, this.props.subcat, this.props.geoType, this.props.geoid)
-            }}
-          >
-            Show Observations
-          </Button>
-        </Row>
+        {this.props.loc === 'map' ?
+          <Row className='justify-content-center mt-3'>
+            <Button
+              variant='primary'
+              size='sm'
+              onClick={() => {
+                this.props.changeTable(this.props.selection, this.props.subcat, this.props.geoType, this.props.geoid)
+              }}
+            >
+              Show Observations
+            </Button>
+          </Row> : ''}
         <Row className='justify-content-center mt-3'>
           <Col className='col-10 text-center'>
             <p className='my-0'><small>Geographic Focus: {

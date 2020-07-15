@@ -16,7 +16,7 @@ class MapContainer extends Component {
         <MapFilter />
         {this.props.map_loaded ? <Chloro /> : <Row className='justify-content-center m-4'><Spinner animation='border' variant='danger' /></Row>}
         {this.props.obs_selected ? <Legend /> : ''}
-        <Obs />
+        <Obs loc='map' />
       </>
     )
   }

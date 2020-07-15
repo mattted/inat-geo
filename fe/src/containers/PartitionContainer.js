@@ -46,7 +46,7 @@ class PartitionContainer extends Component {
               </Col>
             </Row> 
           : <Partition />}
-        <Obs />    
+        <Obs loc='partition' />    
       </>
     )
   }

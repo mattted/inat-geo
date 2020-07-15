@@ -30,6 +30,15 @@ const changeSel = selection => {
   }
 }
 
+const setGeoData = (selection, subcat, kingdom, geo) => {
+  return dispatch => {
+    dispatch({type: 'LOADING_OBS'})
+    let geoURL = `${geo}_obs_by_query?selection=${selection};kingdom=${kingdom};subcat=${subcat}`
+    API.fetch(geoURL)
+      .then(data => dispatch({type: 'CHANGE_OBS', payload: {data: data, selection: selection}}))
+  }
+}
+
 const getObs = id => {
   return dispatch => {
     dispatch({type: 'LOADING_OBS'})
@@ -58,4 +67,4 @@ const changeTable = (selection, subcat, geo, geoid, page=1, ordered='date') => {
       }))
   }
 } 
-export {changeObs, changeTable, changeSel, getObs}
+export {changeObs, changeTable, changeSel, getObs, setGeoData}

@@ -5,7 +5,7 @@ const partitionData = (sel, subcat, kingdom, treeCat) => {
   return dispatch => {
     dispatch({type: 'LOADING_PARTITION'})
     API.fetch(url)
-      .then(data => dispatch({type: 'ADDING_PARTITION', payload: {data: data, treeHead: sel, treeCat}}))
+      .then(data => dispatch({type: 'ADDING_PARTITION', payload: {data: data, treeHead: sel, treeHeadCat: treeCat, treeCat, treeNode: sel}}))
   }
 } 
 

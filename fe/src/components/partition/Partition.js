@@ -2,10 +2,11 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
+import Button from 'react-bootstrap/Button'
 import * as d3 from 'd3'
 
 import {selectGeo} from '../../actions/geoActions'
-import {changeTable} from '../../actions/obsActions'
+import {changeObs} from '../../actions/obsActions'
 import {changeSel} from '../../actions/obsActions'
 import {changeSubcat} from '../../actions/filterActions'
 import {setNode} from '../../actions/partitionActions'
@@ -30,14 +31,11 @@ class Partition extends Component {
   setLevel = e => {
     const currentDepth = e.depth
     const currentNode = e.data.key || this.props.treeHead
-    const treeHeadIndex = this.depthIndex.findIndex(el => el === this.props.treeCat) 
-
+    const treeHeadIndex = this.depthIndex.findIndex(el => el === this.props.treeHeadCat) 
     const currentTreeSubcat = this.depthIndex[treeHeadIndex + currentDepth]
-    console.log(currentTreeSubcat)
-    
+
     this.props.changeSubcat(currentTreeSubcat)
     this.props.setNode(currentNode, currentTreeSubcat)
-    // this.props.changeSel(currentNode)
   }
   
 
@@ -201,6 +199,12 @@ class Partition extends Component {
         <Row className='justify-content-center my-4'>
           <svg width={this.width} height={this.height} ref={el => (this.partitionRef = el)} />
         </Row>
+        <Row className='justify-content-center my-4'>
+          <Button onClick={() => {
+              this.props.changeObs(this.props.treeNode, this.props.treeCat, this.props.kingdom, this.props.geo, '')
+            }} 
+            size='sm'>Set Root to Current Level</Button>
+        </Row>
       </Container>
     )
   }
@@ -209,7 +213,7 @@ class Partition extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     selectGeo: (geoid, geoName) => dispatch(selectGeo(geoid, geoName)),
-    changeTable: (selection, subcat, geo, geoid) => dispatch(changeTable(selection, subcat, geo, geoid)),
+    changeObs: (selection, subcat, kingdom, geo, geoid) => dispatch(changeObs(selection, subcat, kingdom, geo, geoid)),
     changeSel: sel => dispatch(changeSel(sel)),
     changeSubcat: subcat => dispatch(changeSubcat(subcat)),
     setNode: (node, cat) => dispatch(setNode(node, cat)),
