@@ -18,9 +18,12 @@ const Header = () => (
         <Dropdown>
           <Dropdown.Toggle variant='light' size='sm'>Menu</Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item><Link to='/'>Map</Link></Dropdown.Item>
-            <Dropdown.Item><Link to='/taxonomy'>Taxonomy</Link></Dropdown.Item>
-            <Dropdown.Item><Link to='/about'>About</Link></Dropdown.Item>
+            {/* <Dropdown.Item><Link to='/'>Map</Link></Dropdown.Item> */}
+            {/* <Dropdown.Item><Link to='/taxonomy'>Taxonomy</Link></Dropdown.Item> */}
+            {/* <Dropdown.Item><Link to='/about'>About</Link></Dropdown.Item> */}
+            <Dropdown.Item as={Link} to='/'>Map</Dropdown.Item>
+            <Dropdown.Item as={Link} to='/taxonomy'>Taxonomy</Dropdown.Item>
+            <Dropdown.Item as={Link} to='/about'>About</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Col>

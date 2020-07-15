@@ -57,7 +57,7 @@ class Observation < ApplicationRecord
   end
 
   def self.obs_for_inforec(column, searchable, page_num, ordered)
-    selection = 'observations.date, counties.name, states.name as state, organisms.*, observations.url, observations.img'
+    selection = 'observations.date, counties.name, states.name as state, organisms.*, observations.gid, observations.url, observations.img'
     Observation.joins(:organism).joins(county: :state).select(selection)
       .where("organisms.#{column} = '#{searchable}' and observations.date is not null")
       .order(date: :desc).page(page_num).per(20)
@@ -70,7 +70,7 @@ class Observation < ApplicationRecord
     else
       sql_where = "organisms.#{column} = '#{searchable}' and observations.date is not null and counties.id = '#{geoid}'"
     end
-    selection = 'observations.date, counties.name, states.name as state, organisms.*, observations.url, observations.img'
+    selection = 'observations.date, counties.name, states.name as state, organisms.*, observations.gid, observations.url, observations.img'
     Observation.joins(:organism).joins(county: :state).select(selection)
       .where(sql_where)
       .order(date: :desc).page(page_num).per(20)

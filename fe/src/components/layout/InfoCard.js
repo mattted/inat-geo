@@ -9,15 +9,15 @@ const dateParse = (date) => {
   return `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`
 }
 
-const InfoCard = (props) => (
+const InfoCard = ({obs}) => (
   <Card border='secondary'>
-    {props.img[0] && !props.img[0].includes('https://static.inaturalist.org/sounds') ? <Card.Img variant="top" src={props.img[0]} /> : <Card.Img variant="top" src={noPic} />}
+    {obs.img[0] && !obs.img[0].includes('https://static.inaturalist.org/sounds') ? <Card.Img variant="top" src={obs.img[0]} /> : <Card.Img variant="top" src={noPic} />}
     <Card.Footer className='card-info-description'>
-      <p className='info-item'><small className="text-muted">{props.common}</small></p>
-      <p className='info-item'><small className="text-muted">{props.species}</small></p>
-      <p className='info-item'><small className="text-muted">{props.county}, {props.state}</small></p>
-      <p className='info-item'><small className="text-muted">{dateParse(props.date)}</small></p>
-      <p><Link to={`observation/${props.cti}`}><Badge variant='primary text-center'>View</Badge></Link></p>
+      <p className='info-item'><small className="text-muted">{obs.common}</small></p>
+      <p className='info-item'><small className="text-muted">{obs.species}</small></p>
+      <p className='info-item'><small className="text-muted">{obs.name} County, {obs.state}</small></p>
+      <p className='info-item'><small className="text-muted">{dateParse(obs.date)}</small></p>
+      <p><Link to={`observation/${obs.gid}`}><Badge variant='primary text-center'>View</Badge></Link></p>
     </Card.Footer>
   </Card>
 )

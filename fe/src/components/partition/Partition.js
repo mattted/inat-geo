@@ -100,6 +100,8 @@ class Partition extends Component {
           .key(d => d.species)
           .entries(this.props.aggData)
         break
+      default:
+        console.log('Something went wrong during nesting')
     }
     // convert to hierarchy format with nodes/data/children
     const nested = d3.hierarchy({values: entries}, d => d.values)

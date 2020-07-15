@@ -11,9 +11,6 @@ import PartitionFilter from '../components/partition/PartitionFilter'
 import Obs from '../components/obs/Obs'
 
 class PartitionContainer extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentDidMount() {
     this.getData()

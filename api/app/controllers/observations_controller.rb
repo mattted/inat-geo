@@ -3,7 +3,7 @@ class ObservationsController < ApplicationController
   def show
     render json: Observation.joins(:organism).joins(county: :state)
       .select('organisms.*, observations.*, counties.name as countyname, states.name as statename')
-      .where("observations.id = #{params['id']}")
+      .where("observations.gid = #{params['id']}")
   end
 
   def obs_per_county

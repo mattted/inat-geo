@@ -77,16 +77,20 @@ class Obs extends Component {
           </Button>
         </Row>
         <Row className='justify-content-center mt-3'>
-          <p><small>Geographic Focus: {
-            this.props.geoid
-              ? this.props.shp.features.find(feature => feature.id === this.props.geoid).properties.name
-              : 'United States'
-          }</small></p>
-          <p><small>Taxonomic Focus: {
-            this.props.subcat
-              ? this.subcatProper[this.props.subcat]
-              : 'N/A'
-          }</small></p>
+          <Col className='col-10 text-center'>
+            <p className='my-0'><small>Geographic Focus: {
+              this.props.geoid
+                ? this.props.shp.features.find(feature => feature.id === this.props.geoid).properties.name
+                : 'United States'
+              }</small>
+            </p>
+            <p><small>Taxonomic Focus: {
+              this.props.subcat
+                ? this.subcatProper[this.props.subcat]
+                : 'N/A'
+              }</small>
+            </p>
+          </Col>
         </Row>
         <Row className='justify-content-center mt-3'>
           {this.props.table[0]
@@ -98,23 +102,7 @@ class Obs extends Component {
         <Row className='justify-content-center mx-2'>
           <CardColumns className='mt-1'>
             {this.props.table[0] ? this.props.table.map((obs, idx) =>
-              // TODO: destructure
-              <InfoCard
-                key={obs.gid}
-                cti={idx}
-                county={obs.name}
-                state={obs.state}
-                date={obs.date}
-                img={obs.img}
-                kingdom={obs.kingdom}
-                phylum={obs.phylum}
-                klass={obs.klass}
-                order={obs.order}
-                family={obs.family}
-                genus={obs.genus}
-                species={obs.species}
-                common={obs.common}
-              />) : ''}
+              <InfoCard key={obs.gid} obs={obs} />) : ''}
           </CardColumns>
         </Row>
         <Row className='justify-content-center'>
@@ -127,7 +115,6 @@ class Obs extends Component {
   }
 }
 
-  // this.props.changeTable(this.props.selection, this.props.subcat, this.props.type, this.props.geoid)
 function mapDispatchToProps(dispatch) {
   return {
     changeTable: (sel, sub, gtype, gid, pg) => dispatch(changeTable(sel, sub, gtype, gid, pg))

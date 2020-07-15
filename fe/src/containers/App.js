@@ -6,13 +6,11 @@ import {changeGeo} from '../actions/geoActions'
 import {partitionData} from '../actions/partitionActions'
 import {populateDatalist} from '../actions/filterActions'
 import About from '../components/layout/About'
-import ObsCard from '../components/obs/ObsCard'
 
 import Header from '../components/layout/Header'
 import MapContainer from './MapContainer'
 import PartitionContainer from './PartitionContainer'
 import ObservationContainer from './ObservationContainer'
-import Obs from '../components/obs/Obs'
 
 class App extends Component {
   componentDidMount() {
